@@ -4,6 +4,8 @@ Numer zespołu: 17
 
 Skład zespołu: Szymon Jankowski, Jakub Podrażka, Andrii Gamalii
 
+Wybrany temat: System pocztowy
+
 Prowadzący: Michał Chwesiuk
 
 Technologie: Java (Swing), OracleDB
