@@ -1,3 +1,11 @@
 # PAP22Z-Z17_BD22Z-Z02
 
-Z17: Andrii Gamalii, Jakub Podrażka, Szymon Jankowski
+Numer zespołu: 17
+
+Skład zespołu: Szymon Jankowski, Jakub Podrażka, Andrii Gamalii
+
+Prowadzący: Michał Chwesiuk
+
+Technologie: Java (Swing), OracleDB
+
+Więcej w dokumentacji: doc.pdf
