@@ -1,6 +1,6 @@
 create table packages
 (
-    packageId NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+    packageId NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1) PRIMARY KEY,
     senderId NUMBER REFERENCES persons (personId),
     receiverId NUMBER REFERENCES persons (personId),
     senderAddressId NUMBER REFERENCES addresses (addressId),

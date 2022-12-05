@@ -1,12 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigInteger;
 public class MainWindowForm extends JFrame {
     private JButton clickMEButton;
     private JPanel mainWindowPanel;
     private JTabbedPane mainWindowTabbedPane;
     private JTextField senderBuildingNumberTextField;
-    private JTextField senderSurnameTextField;
+    private JTextField senderLastNameTextField;
     private JTextField senderEmailTextField;
     private JTextField senderNameTextField;
     private JTextField senderStreetTextField;
@@ -36,13 +38,13 @@ public class MainWindowForm extends JFrame {
     private JLabel receiverNameLabel;
     private JLabel receiverEmailLabel;
     private JLabel receiverStreetLabel;
-    private JLabel receiverBuildingNameLabel;
+    private JLabel receiverBuildingNumberLabel;
     private JLabel receiverCityLabel;
     private JLabel receiverPostalCodeLabel;
     private JLabel senderPostalCodeLabel;
     private JLabel senderNameLabel;
     private JLabel senderBuildingNumberLabel;
-    private JLabel senderSurnameLabel;
+    private JLabel senderLastNameLabel;
     private JLabel senderEmailLabel;
     private JLabel senderCityLabel;
     private JLabel senderStreetLabel;
@@ -61,9 +63,16 @@ public class MainWindowForm extends JFrame {
         senderLabel.setFont(new Font("", Font.PLAIN, 16));
         receiverLabel.setFont(new Font("", Font.PLAIN, 16));
         packageLabel.setFont(new Font("", Font.PLAIN, 16));
+        mainPageTrackButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BigInteger id = new BigInteger(mainPagePackageIdTextField.getText());
+            }
+        });
     }
 
     public static void main(String[] args) {
+
 
         MainWindowForm form = new MainWindowForm();
     }
