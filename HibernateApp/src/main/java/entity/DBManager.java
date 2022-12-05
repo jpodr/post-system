@@ -1,9 +1,9 @@
-import entity.Addresses;
-import entity.Packages;
-import entity.Persons;
+package entity;
+
 import jakarta.persistence.*;
 
 import java.math.BigInteger;
+import java.util.Iterator;
 import java.util.List;
 
 public class DBManager {
@@ -15,7 +15,7 @@ public class DBManager {
         entityManager = entityManagerFactory.createEntityManager();
         transaction = entityManager.getTransaction();
     }
-    public void addPerson(String firstName, String lastName, String email, int phoneNumber){
+    public BigInteger addPerson(String firstName, String lastName, String email, int phoneNumber){
         try {
             transaction.begin();
             Persons person = new Persons();
@@ -25,15 +25,14 @@ public class DBManager {
             person.setPhonenumber(phoneNumber);
             entityManager.persist(person);
             transaction.commit();
+            return person.getPersonid();
         } finally {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            entityManager.close();
-            entityManagerFactory.close();
         }
     }
-    public void addAddress(String city, String street, String buildingNumber, String postalCode){
+    public BigInteger addAddress(String city, String street, String buildingNumber, String postalCode){
         try {
             transaction.begin();
             Addresses address = new Addresses();
@@ -43,47 +42,49 @@ public class DBManager {
             address.setPostalcode(postalCode);
             entityManager.persist(address);
             transaction.commit();
+            return address.getAddressid();
         } finally {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            entityManager.close();
-            entityManagerFactory.close();
         }
     }
-    public void addPackage(int senderId, int receiverId, int senderAddressId, int receiverAddressId, String packageSize, String priority){
+    public BigInteger addPackage(
+            BigInteger senderId, BigInteger receiverId,
+            BigInteger senderAddressId, BigInteger receiverAddressId,
+            String packageSize, String priority){
         try {
             transaction.begin();
             Packages parcel = new Packages();
             parcel.setPriority(priority);
-            parcel.setReceiveraddressid(BigInteger.valueOf(receiverAddressId));
-            parcel.setSenderaddressid(BigInteger.valueOf(senderAddressId));
-            parcel.setReceiverid(BigInteger.valueOf(receiverId));
-            parcel.setSenderid(BigInteger.valueOf(senderId));
+            parcel.setReceiveraddressid(receiverAddressId);
+            parcel.setSenderaddressid(senderAddressId);
+            parcel.setReceiverid(receiverId);
+            parcel.setSenderid(senderId);
             parcel.setPackagesize(packageSize);
             entityManager.persist(parcel);
             transaction.commit();
+            return parcel.getPackageid();
         } finally {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            entityManager.close();
-            entityManagerFactory.close();
         }
     }
     public Packages getPackageById(BigInteger id){
         String s = "SELECT p FROM Packages p WHERE p.packageid = :id";
         TypedQuery<Packages> packageById = entityManager.createQuery(s, Packages.class);
-        packageById.executeUpdate();
+        packageById.setParameter("id", id);
         return packageById.getSingleResult();
     }
     public List<Packages> getAllPackages(){
         String s = "SELECT p FROM Packages p";
         TypedQuery<Packages> allPackages = entityManager.createQuery(s, Packages.class);
-        allPackages.executeUpdate();
         return allPackages.getResultList();
     }
     public static void main(String[] args) {
+
         DBManager db = new DBManager();
+        List l = db.getFullPackageInfo(BigInteger.valueOf(1));
     }
 }

@@ -89,4 +89,15 @@ public class Addresses {
         result = 31 * result + (postalcode != null ? postalcode.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Addresses{" +
+                "addressid=" + addressid +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", buildingnumber='" + buildingnumber + '\'' +
+                ", postalcode='" + postalcode + '\'' +
+                '}';
+    }
 }

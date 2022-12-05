@@ -88,4 +88,15 @@ public class Persons {
         result = 31 * result + phonenumber;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Persons{" +
+                "personid=" + personid +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phonenumber=" + phonenumber +
+                '}';
+    }
 }
