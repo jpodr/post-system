@@ -10,7 +10,7 @@ public class MainWindowForm extends JFrame {
     private JTextField senderBuildingNumberTextField;
     private JTextField senderLastNameTextField;
     private JTextField senderEmailTextField;
-    private JTextField senderNameTextField;
+    private JTextField senderFirstNameTextField;
     private JTextField senderStreetTextField;
     private JLabel senderLabel;
     private JTextField senderCityTextField;
@@ -24,8 +24,8 @@ public class MainWindowForm extends JFrame {
     private JTextField mainPagePackageIdTextField;
     private JButton mainPageTrackButton;
     private JTextArea mainPagePackageInfoTextArea;
-    private JTextField receiverNameTextField;
-    private JTextField receiverSurnameTextField;
+    private JTextField receiverFirstNameTextField;
+    private JTextField receiverLastNameTextField;
     private JTextField receiverEmailTextField;
     private JTextField receiverStreetTextField;
     private JLabel packageSizeLabel;
@@ -34,15 +34,15 @@ public class MainWindowForm extends JFrame {
     private JTextField receiverCityTextField;
     private JTextField receiverPostalCodeTextField;
     private JTextField receiverBuildingNumberTextField;
-    private JLabel receiverSurnameLabel;
-    private JLabel receiverNameLabel;
+    private JLabel receiverLastNameLabel;
+    private JLabel receiverFirstNameLabel;
     private JLabel receiverEmailLabel;
     private JLabel receiverStreetLabel;
     private JLabel receiverBuildingNumberLabel;
     private JLabel receiverCityLabel;
     private JLabel receiverPostalCodeLabel;
     private JLabel senderPostalCodeLabel;
-    private JLabel senderNameLabel;
+    private JLabel senderFirstNameLabel;
     private JLabel senderBuildingNumberLabel;
     private JLabel senderLastNameLabel;
     private JLabel senderEmailLabel;
