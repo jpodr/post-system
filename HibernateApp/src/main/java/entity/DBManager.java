@@ -82,6 +82,17 @@ public class DBManager {
         TypedQuery<Packages> allPackages = entityManager.createQuery(s, Packages.class);
         return allPackages.getResultList();
     }
+    public List getFullPackageInfo(BigInteger id){
+        String s = "SELECT p.packageid, p.packagesize, p.priority, a.street, a.buildingnumber, a.city, a.postalcode, per.firstname, per.lastname, per.phonenumber FROM Packages p JOIN Persons per ON (p.receiverid = per.personid) JOIN Addresses a ON (p.receiveraddressid = a.addressid) WHERE p.packageid = :id";
+        Query q = entityManager.createQuery(s);
+        q.setParameter("id", id);
+        return q.getResultList();
+    }
+    public List getAllPackagesInfo(){
+        String s = "SELECT p.id, per.firstname, per.lastname FROM Packages p JOIN Persons per ON (p.senderid=per.personid)";
+        Query q = entityManager.createQuery(s);
+        return q.getResultList();
+    }
     public static void main(String[] args) {
 
         DBManager db = new DBManager();
