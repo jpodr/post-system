@@ -74,6 +74,19 @@ public class MainWindowForm extends JFrame {
     private JTextField textField1;
     private JTextField textField2;
     private JTextField textField3;
+    private JTextField textField4;
+    private JPasswordField passwordField1;
+    private JCheckBox showPasswordCheckBox;
+    private JTextField textField5;
+    private JTextField textField6;
+    private JTextField textField7;
+    private JTextField textField8;
+    private JTextField textField9;
+    private JTextField textField10;
+    private JSpinner dayNewAccountPageSpinner;
+    private JComboBox monthNewAccountPageComboBox;
+    private JSpinner yearNewAccountPageSpinner;
+    private JButton button1;
     private JTextField textOnClick;
     private DBManager dbManager;
 
@@ -209,7 +222,11 @@ public class MainWindowForm extends JFrame {
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
-        UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkIJTheme");
+        UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme");
         MainWindowForm form = new MainWindowForm();
+        SpinnerModel sm = new SpinnerNumberModel(1, 1, 31, 1);
+        form.dayNewAccountPageSpinner.setModel(sm);
+        sm = new SpinnerNumberModel(2023, 1900, 2023, 1);
+        form.yearNewAccountPageSpinner.setModel(sm);
     }
 }
