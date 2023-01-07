@@ -210,12 +210,12 @@ public class MainWindowForm extends JFrame {
         logInLoginPageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
             }
         });
         registerLoginPageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                mainWindowTabbedPane.setSelectedIndex(1);
             }
         });
     }
