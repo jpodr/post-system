@@ -5,10 +5,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 import entity.*;
@@ -66,6 +63,17 @@ public class MainWindowForm extends JFrame {
     private JTextField senderPhoneNumberTextField;
     private JLabel receiverPhoneNumberLabel;
     private JTextField receiverPhoneNumberTextField;
+    private JPanel loginPagePanel;
+    private JTextField loginLoginPageTextField;
+    private JLabel loginLoginPageLabel;
+    private JPasswordField passwordLoginPagePasswordField;
+    private JLabel passwordLoginPageLabel;
+    private JButton logInLoginPageButton;
+    private JButton registerLoginPageButton;
+    private JPanel createNewAccountPagePanel;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JTextField textField3;
     private JTextField textOnClick;
     private DBManager dbManager;
 
@@ -186,11 +194,22 @@ public class MainWindowForm extends JFrame {
                 );
             }
         });
+        logInLoginPageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        registerLoginPageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
-        UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkIJTheme");
         MainWindowForm form = new MainWindowForm();
     }
 }

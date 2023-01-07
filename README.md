@@ -11,5 +11,3 @@ Prowadzący: Michał Chwesiuk
 Technologie: Java (Swing), OracleDB
 
 Więcej w dokumentacji: doc.pdf
-
-z02:wk4dp8
