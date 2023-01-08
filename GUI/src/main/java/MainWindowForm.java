@@ -87,6 +87,12 @@ public class MainWindowForm extends JFrame {
     private JComboBox monthNewAccountPageComboBox;
     private JSpinner yearNewAccountPageSpinner;
     private JButton button1;
+    private JButton logInButton;
+    private JTabbedPane tabbedPane1;
+    private JPanel courierPagePanel;
+    private JList courierAllPackagesList;
+    private JTextArea courierAllPackagesInfoTextArea;
+    private JButton deleteSelectedPackageButton;
     private JTextField textOnClick;
     private DBManager dbManager;
 
@@ -109,6 +115,8 @@ public class MainWindowForm extends JFrame {
         setTitle("PW Post");
         setSize(700, 700);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        createNewAccountPagePanel.setVisible(false);
+        mainWindowTabbedPane.setVisible(false);
         setVisible(true);
         senderLabel.setFont(new Font("", Font.PLAIN, 16));
         receiverLabel.setFont(new Font("", Font.PLAIN, 16));
@@ -123,7 +131,7 @@ public class MainWindowForm extends JFrame {
         mainWindowTabbedPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (mainWindowTabbedPane.getSelectedIndex() == 2){
+                if (mainWindowTabbedPane.getSelectedIndex() == 1){
                     allPackagesList.setModel(new DefaultListModel());
                     List infos = dbManager.getAllPackagesInfo();
                     for(int i = 0; i < infos.size(); i++){
@@ -135,6 +143,25 @@ public class MainWindowForm extends JFrame {
                             newModel.addElement(allPackagesList.getModel().getElementAt(j));
                         }
                         allPackagesList.setModel(newModel);
+                    }
+                }
+            }
+        });
+        mainWindowTabbedPane.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (mainWindowTabbedPane.getSelectedIndex() == 2){
+                    courierAllPackagesList.setModel(new DefaultListModel());
+                    List infos = dbManager.getAllPackagesInfo();
+                    for(int i = 0; i < infos.size(); i++){
+                        Object[] o = (Object[]) infos.get(i);
+                        String info = o[0] + ", " + o[1] + " " + o[2];
+                        DefaultListModel newModel = new DefaultListModel();
+                        newModel.addElement(info);
+                        for (int j = 0; j < courierAllPackagesList.getModel().getSize(); j++){
+                            newModel.addElement(courierAllPackagesList.getModel().getElementAt(j));
+                        }
+                        courierAllPackagesList.setModel(newModel);
                     }
                 }
             }
@@ -155,6 +182,24 @@ public class MainWindowForm extends JFrame {
                 BigInteger packageId = new BigInteger(idStr);
                 Object[] attributes = (Object[]) dbManager.getFullPackageInfo(packageId).get(0);
                 allPackagesInfoTextArea.setText(DescribedPackageAttributes(attributes));
+            }
+        });
+        courierAllPackagesList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Object selectedValue = ((JList) e.getSource()).getSelectedValue();
+                if (selectedValue == null) return;
+                String value = selectedValue.toString();
+                String idStr = "";
+                for (int i = 0; i < value.length(); i++){
+                    if (value.charAt(i) == ','){
+                        break;
+                    }
+                    idStr += value.charAt(i);
+                }
+                BigInteger packageId = new BigInteger(idStr);
+                Object[] attributes = (Object[]) dbManager.getFullPackageInfo(packageId).get(0);
+                courierAllPackagesInfoTextArea.setText(DescribedPackageAttributes(attributes));
             }
         });
         addPackageButton.addActionListener(new ActionListener() {
@@ -210,12 +255,24 @@ public class MainWindowForm extends JFrame {
         logInLoginPageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                mainWindowTabbedPane.setVisible(true);
+                tabbedPane1.setVisible(false);
+                loginPagePanel.setVisible(false);
             }
         });
         registerLoginPageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainWindowTabbedPane.setSelectedIndex(1);
+                loginPagePanel.setVisible(false);
+                tabbedPane1.setVisible(false);
+                createNewAccountPagePanel.setVisible(true);
+            }
+        });
+        logInButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createNewAccountPagePanel.setVisible(false);
+                tabbedPane1.setVisible(true);
             }
         });
     }
