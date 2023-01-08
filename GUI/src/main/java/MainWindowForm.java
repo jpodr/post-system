@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Arrays;
 
 import entity.*;
 
@@ -88,7 +89,7 @@ public class MainWindowForm extends JFrame {
     private JSpinner yearNewAccountPageSpinner;
     private JButton button1;
     private JButton logInButton;
-    private JTabbedPane tabbedPane1;
+    private JTabbedPane loginTabbedPane;
     private JPanel courierPagePanel;
     private JList courierAllPackagesList;
     private JTextArea courierAllPackagesInfoTextArea;
@@ -123,9 +124,18 @@ public class MainWindowForm extends JFrame {
         packageLabel.setFont(new Font("", Font.PLAIN, 16));
         mainPageTrackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                BigInteger id = new BigInteger(mainPagePackageIdTextField.getText());
-                Object[] attributes = (Object[]) dbManager.getFullPackageInfo(id).get(0);
-                mainPagePackageInfoTextArea.setText(DescribedPackageAttributes(attributes));
+                String id = new String(mainPagePackageIdTextField.getText());
+                List<String> idList = Arrays.asList(id.split("\\s*,\\s*"));
+                String attrsString = new String();
+                for (int i = 0; i < idList.size(); i++) {
+                    BigInteger oneId = new BigInteger(idList.get(i));
+                    Object[] attributes = (Object[]) dbManager.getFullPackageInfo(oneId).get(0);
+                    attrsString += DescribedPackageAttributes(attributes);
+                    if (idList.size() > 1 && i < (idList.size() - 1)) {
+                        attrsString += new String("\n---------------------------\n");
+                    }
+                }
+                mainPagePackageInfoTextArea.setText(attrsString);
             }
         });
         mainWindowTabbedPane.addChangeListener(new ChangeListener() {
@@ -256,7 +266,7 @@ public class MainWindowForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainWindowTabbedPane.setVisible(true);
-                tabbedPane1.setVisible(false);
+                loginTabbedPane.setVisible(false);
                 loginPagePanel.setVisible(false);
             }
         });
@@ -264,7 +274,7 @@ public class MainWindowForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 loginPagePanel.setVisible(false);
-                tabbedPane1.setVisible(false);
+                loginTabbedPane.setVisible(false);
                 createNewAccountPagePanel.setVisible(true);
             }
         });
@@ -272,7 +282,7 @@ public class MainWindowForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createNewAccountPagePanel.setVisible(false);
-                tabbedPane1.setVisible(true);
+                loginTabbedPane.setVisible(true);
             }
         });
     }
