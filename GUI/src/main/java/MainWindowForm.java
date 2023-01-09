@@ -6,9 +6,10 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Arrays;
-
+import java.util.*;
 import entity.*;
 
 public class MainWindowForm extends JFrame {
@@ -72,30 +73,34 @@ public class MainWindowForm extends JFrame {
     private JButton logInLoginPageButton;
     private JButton registerLoginPageButton;
     private JPanel createNewAccountPagePanel;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField4;
-    private JPasswordField passwordField1;
+    private JTextField nameTextFieldNewAccountPage;
+    private JTextField surnameTextFieldNewAccountPage;
+    private JTextField mobileNumberTextFieldNewAccountPage;
+    private JTextField emailTextFieldNewAccountPage;
+    private JPasswordField passwordPasswordFieldNewAccountPage;
     private JCheckBox showPasswordCheckBox;
-    private JTextField textField5;
-    private JTextField textField6;
-    private JTextField textField7;
-    private JTextField textField8;
-    private JTextField textField9;
-    private JTextField textField10;
+    private JTextField countryTextFieldNewAccountPage;
+    private JTextField townTextFieldNewAccountPage;
+    private JTextField buildingNumberTextFieldNewAccountPage;
+    private JTextField streetTextFieldNewAccountPage;
+    private JTextField postalCodeTextFieldNewAccountPage;
     private JSpinner dayNewAccountPageSpinner;
     private JComboBox monthNewAccountPageComboBox;
     private JSpinner yearNewAccountPageSpinner;
-    private JButton button1;
+    private JButton createAccountButton;
     private JButton logInButton;
     private JTabbedPane loginTabbedPane;
     private JPanel courierPagePanel;
     private JList courierAllPackagesList;
     private JTextArea courierAllPackagesInfoTextArea;
     private JButton deleteSelectedPackageButton;
+    private JPanel logOutTab;
+    private JPasswordField passwordAgainPasswordFieldNewAccountPage;
     private JTextField textOnClick;
     private DBManager dbManager;
+
+    private Clients loggedInClient;
+    private Employees loggedInEmployee;
 
     private String DescribedPackageAttributes(Object[] attrs){
         String resp = "";
@@ -155,12 +160,7 @@ public class MainWindowForm extends JFrame {
                         allPackagesList.setModel(newModel);
                     }
                 }
-            }
-        });
-        mainWindowTabbedPane.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if (mainWindowTabbedPane.getSelectedIndex() == 2){
+                else if (mainWindowTabbedPane.getSelectedIndex() == 2){
                     courierAllPackagesList.setModel(new DefaultListModel());
                     List infos = dbManager.getAllPackagesInfo();
                     for(int i = 0; i < infos.size(); i++){
@@ -173,6 +173,14 @@ public class MainWindowForm extends JFrame {
                         }
                         courierAllPackagesList.setModel(newModel);
                     }
+                }
+                else if (mainWindowTabbedPane.getSelectedIndex() == 3){
+                    mainWindowTabbedPane.setVisible(false);
+                    loginTabbedPane.setVisible(true);
+                    loginPagePanel.setVisible(true);
+                    loggedInClient = null;
+                    loggedInEmployee = null;
+                    mainWindowTabbedPane.setSelectedIndex(0);
                 }
             }
         });
@@ -215,29 +223,33 @@ public class MainWindowForm extends JFrame {
         addPackageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BigInteger senderId = dbManager.addPerson(
-                        senderFirstNameTextField.getText(),
-                        senderLastNameTextField.getText(),
-                        senderEmailTextField.getText(),
-                        Integer.parseInt(senderPhoneNumberTextField.getText())
-                );
-                BigInteger receiverId = dbManager.addPerson(
-                        receiverFirstNameTextField.getText(),
-                        receiverLastNameTextField.getText(),
-                        receiverEmailTextField.getText(),
-                        Integer.parseInt(receiverPhoneNumberTextField.getText())
-                );
                 BigInteger senderAddressId = dbManager.addAddress(
                         senderCityTextField.getText(),
                         senderStreetTextField.getText(),
                         senderBuildingNumberTextField.getText(),
-                        senderPostalCodeTextField.getText()
+                        senderPostalCodeTextField.getText(),
+                        null
                 );
                 BigInteger receiverAddressId = dbManager.addAddress(
                         receiverCityTextField.getText(),
                         receiverStreetTextField.getText(),
                         receiverBuildingNumberTextField.getText(),
-                        receiverPostalCodeTextField.getText()
+                        receiverPostalCodeTextField.getText(),
+                        null
+                );
+                BigInteger senderId = dbManager.addClient(
+                        senderFirstNameTextField.getText(),
+                        senderLastNameTextField.getText(),
+                        senderEmailTextField.getText(),
+                        senderPhoneNumberTextField.getText(),
+                        senderAddressId, null, null
+                );
+                BigInteger receiverId = dbManager.addClient(
+                        receiverFirstNameTextField.getText(),
+                        receiverLastNameTextField.getText(),
+                        receiverEmailTextField.getText(),
+                        receiverPhoneNumberTextField.getText(),
+                        receiverAddressId, null, null
                 );
                 String size = "";
                 String sizePrize = packageSizeComboBox.getSelectedItem().toString();
@@ -255,19 +267,30 @@ public class MainWindowForm extends JFrame {
                     }
                     pri += priPrize.charAt(i);
                 }
-                dbManager.addPackage(
-                        senderId, receiverId,
-                        senderAddressId, receiverAddressId,
-                        size, pri
-                );
+//                dbManager.addPackage(
+//                        senderId, receiverId,
+//                        senderAddressId, receiverAddressId,
+//                        size, pri
+//                );
             }
         });
         logInLoginPageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainWindowTabbedPane.setVisible(true);
-                loginTabbedPane.setVisible(false);
-                loginPagePanel.setVisible(false);
+                String login = loginLoginPageTextField.getText();
+                char[] password1 = passwordLoginPagePasswordField.getPassword();
+                String password2 = dbManager.getPasswordByLogin(login);
+                String password1Str = new String(password1);
+                boolean passwordIsValid = dbManager.passwordEncoder.matches(password1Str, password2);
+
+                if (passwordIsValid) {
+                    mainWindowTabbedPane.setVisible(true);
+                    loginTabbedPane.setVisible(false);
+                    loginPagePanel.setVisible(false);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Password is not valid! Try again");
+                }
             }
         });
         registerLoginPageButton.addActionListener(new ActionListener() {
@@ -283,6 +306,46 @@ public class MainWindowForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 createNewAccountPagePanel.setVisible(false);
                 loginTabbedPane.setVisible(true);
+            }
+        });
+        createAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = nameTextFieldNewAccountPage.getText();
+                String surname = surnameTextFieldNewAccountPage.getText();
+                String email = emailTextFieldNewAccountPage.getText();
+                String phoneNumber = mobileNumberTextFieldNewAccountPage.getText();
+
+                int day = (int) dayNewAccountPageSpinner.getValue();
+                int month = (int) monthNewAccountPageComboBox.getSelectedIndex() + 1;
+                int year = (int) yearNewAccountPageSpinner.getValue();
+                LocalDate birthDate = LocalDate.of(year, month, day);
+
+
+                char[] password1 = passwordPasswordFieldNewAccountPage.getPassword();
+                char[] password2 = passwordAgainPasswordFieldNewAccountPage.getPassword();
+
+//                address
+                String countryName = countryTextFieldNewAccountPage.getText();
+                String town = townTextFieldNewAccountPage.getText();
+                String buildingNumber = buildingNumberTextFieldNewAccountPage.getText();
+                String street = streetTextFieldNewAccountPage.getText();
+                String postalCode = postalCodeTextFieldNewAccountPage.getText();
+
+                BigInteger countryId = dbManager.getCountryIdByName(countryName);
+                BigInteger addressId = dbManager.addAddress(town, street, buildingNumber, postalCode, countryId);
+                if (Arrays.equals(password1, password2)) {
+                    BigInteger loginDataId = dbManager.addLoginData(email, password1.toString());
+                    BigInteger clientId = dbManager.addClient(name, surname, email, phoneNumber, addressId, birthDate, loginDataId);
+                    loggedInClient = dbManager.getClient(clientId);
+
+                    createNewAccountPagePanel.setVisible(false);
+                    loginTabbedPane.setVisible(false);
+                    mainWindowTabbedPane.setVisible(true);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Passwords you entered are not the same, try again!");
+                }
             }
         });
     }

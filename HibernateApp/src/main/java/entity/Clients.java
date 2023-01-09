@@ -3,6 +3,8 @@ package entity;
 import jakarta.persistence.*;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.*;
 
 @Entity
 public class Clients {
@@ -26,11 +28,11 @@ public class Clients {
     @Column(name = "ADDRESSES_ADDRESS_ID")
     private BigInteger addressesAddressId;
     @Basic
-    @Column(name = "LOGIN_DATA_LOGIN_ID")
-    private BigInteger loginDataLoginId;
+    @Column(name = "LOGIN_DATA_ID")
+    private BigInteger loginDataId;
     @Basic
-    @Column(name = "COUNTRIES_COUNTRY_ID")
-    private BigInteger countriesCountryId;
+    @Column(name = "BIRTH_DATE")
+    private LocalDate birthDate;
 
     public BigInteger getClientId() {
         return clientId;
@@ -80,20 +82,20 @@ public class Clients {
         this.addressesAddressId = addressesAddressId;
     }
 
-    public BigInteger getLoginDataLoginId() {
-        return loginDataLoginId;
+    public BigInteger getLoginDataId() {
+        return loginDataId;
     }
 
-    public void setLoginDataLoginId(BigInteger loginDataLoginId) {
-        this.loginDataLoginId = loginDataLoginId;
+    public void setLoginDataId(BigInteger loginDataId) {
+        this.loginDataId = loginDataId;
     }
 
-    public BigInteger getCountriesCountryId() {
-        return countriesCountryId;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setCountriesCountryId(BigInteger countriesCountryId) {
-        this.countriesCountryId = countriesCountryId;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     @Override
@@ -110,10 +112,8 @@ public class Clients {
         if (phoneNumber != null ? !phoneNumber.equals(clients.phoneNumber) : clients.phoneNumber != null) return false;
         if (addressesAddressId != null ? !addressesAddressId.equals(clients.addressesAddressId) : clients.addressesAddressId != null)
             return false;
-        if (loginDataLoginId != null ? !loginDataLoginId.equals(clients.loginDataLoginId) : clients.loginDataLoginId != null)
-            return false;
-        if (countriesCountryId != null ? !countriesCountryId.equals(clients.countriesCountryId) : clients.countriesCountryId != null)
-            return false;
+        if (loginDataId != null ? !loginDataId.equals(clients.loginDataId) : clients.loginDataId != null) return false;
+        if (birthDate != null ? !birthDate.equals(clients.birthDate) : clients.birthDate != null) return false;
 
         return true;
     }
@@ -126,8 +126,8 @@ public class Clients {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         result = 31 * result + (addressesAddressId != null ? addressesAddressId.hashCode() : 0);
-        result = 31 * result + (loginDataLoginId != null ? loginDataLoginId.hashCode() : 0);
-        result = 31 * result + (countriesCountryId != null ? countriesCountryId.hashCode() : 0);
+        result = 31 * result + (loginDataId != null ? loginDataId.hashCode() : 0);
+        result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
         return result;
     }
 }

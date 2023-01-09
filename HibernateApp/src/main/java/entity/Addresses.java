@@ -26,8 +26,8 @@ public class Addresses {
     @Column(name = "POSTAL_CODE")
     private String postalCode;
     @Basic
-    @Column(name = "COUNTRIES_COUNTRY_ID")
-    private BigInteger countriesCountryId;
+    @Column(name = "COUNTRY_ID")
+    private BigInteger countryId;
 
     public BigInteger getAddressId() {
         return addressId;
@@ -78,11 +78,11 @@ public class Addresses {
     }
 
     public BigInteger getCountriesCountryId() {
-        return countriesCountryId;
+        return countryId;
     }
 
-    public void setCountriesCountryId(BigInteger countriesCountryId) {
-        this.countriesCountryId = countriesCountryId;
+    public void setCountryId(BigInteger countriesCountryId) {
+        this.countryId = countriesCountryId;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class Addresses {
         if (appartmentNumber != null ? !appartmentNumber.equals(addresses.appartmentNumber) : addresses.appartmentNumber != null)
             return false;
         if (postalCode != null ? !postalCode.equals(addresses.postalCode) : addresses.postalCode != null) return false;
-        if (countriesCountryId != null ? !countriesCountryId.equals(addresses.countriesCountryId) : addresses.countriesCountryId != null)
+        if (countryId != null ? !countryId.equals(addresses.countryId) : addresses.countryId != null)
             return false;
 
         return true;
@@ -114,7 +114,7 @@ public class Addresses {
         result = 31 * result + (buildingNumber != null ? buildingNumber.hashCode() : 0);
         result = 31 * result + (appartmentNumber != null ? appartmentNumber.hashCode() : 0);
         result = 31 * result + (postalCode != null ? postalCode.hashCode() : 0);
-        result = 31 * result + (countriesCountryId != null ? countriesCountryId.hashCode() : 0);
+        result = 31 * result + (countryId != null ? countryId.hashCode() : 0);
         return result;
     }
 }

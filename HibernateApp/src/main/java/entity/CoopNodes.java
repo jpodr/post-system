@@ -1,16 +1,14 @@
 package entity;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigInteger;
 
 @Entity
-@Table(name = "COOP_NODES", schema = "Z02", catalog = "")
+@Table(name = "COOP_NODES", schema = "Z02")
 public class CoopNodes {
-    @Basic
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     @Column(name = "NODE_ID")
     private BigInteger nodeId;
     @Basic

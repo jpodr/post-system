@@ -18,7 +18,7 @@ public class Packages {
     private String priority;
     @Basic
     @Column(name = "WEIGHT")
-    private byte weight;
+    private Double weight;
     @Basic
     @Column(name = "TO_ADDRESS_ID")
     private BigInteger toAddressId;
@@ -59,11 +59,11 @@ public class Packages {
         this.priority = priority;
     }
 
-    public byte getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(byte weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
@@ -135,7 +135,7 @@ public class Packages {
         int result = packageId != null ? packageId.hashCode() : 0;
         result = 31 * result + (size != null ? size.hashCode() : 0);
         result = 31 * result + (priority != null ? priority.hashCode() : 0);
-        result = 31 * result + (int) weight;
+        result = 31 * result + weight.intValue();
         result = 31 * result + (toAddressId != null ? toAddressId.hashCode() : 0);
         result = 31 * result + (fromAddressId != null ? fromAddressId.hashCode() : 0);
         result = 31 * result + (servicePlaceId != null ? servicePlaceId.hashCode() : 0);

@@ -26,11 +26,14 @@ public class Employees {
     @Column(name = "SERVICE_PLACE_ID")
     private BigInteger servicePlaceId;
     @Basic
-    @Column(name = "LOGIN_DATA_LOGIN_ID")
-    private BigInteger loginDataLoginId;
+    @Column(name = "LOGIN_DATA_ID")
+    private BigInteger loginDataId;
     @Basic
     @Column(name = "NODE_ID")
     private BigInteger nodeId;
+
+    public Boolean isAdmin;
+    public Boolean isCourier;
 
     public BigInteger getEmployeeId() {
         return employeeId;
@@ -80,12 +83,12 @@ public class Employees {
         this.servicePlaceId = servicePlaceId;
     }
 
-    public BigInteger getLoginDataLoginId() {
-        return loginDataLoginId;
+    public BigInteger getLoginDataId() {
+        return loginDataId;
     }
 
-    public void setLoginDataLoginId(BigInteger loginDataLoginId) {
-        this.loginDataLoginId = loginDataLoginId;
+    public void setLoginDataId(BigInteger loginDataId) {
+        this.loginDataId = loginDataId;
     }
 
     public BigInteger getNodeId() {
@@ -110,7 +113,7 @@ public class Employees {
         if (positionId != null ? !positionId.equals(employees.positionId) : employees.positionId != null) return false;
         if (servicePlaceId != null ? !servicePlaceId.equals(employees.servicePlaceId) : employees.servicePlaceId != null)
             return false;
-        if (loginDataLoginId != null ? !loginDataLoginId.equals(employees.loginDataLoginId) : employees.loginDataLoginId != null)
+        if (loginDataId != null ? !loginDataId.equals(employees.loginDataId) : employees.loginDataId != null)
             return false;
         if (nodeId != null ? !nodeId.equals(employees.nodeId) : employees.nodeId != null) return false;
 
@@ -125,7 +128,7 @@ public class Employees {
         result = 31 * result + (salary != null ? salary.hashCode() : 0);
         result = 31 * result + (positionId != null ? positionId.hashCode() : 0);
         result = 31 * result + (servicePlaceId != null ? servicePlaceId.hashCode() : 0);
-        result = 31 * result + (loginDataLoginId != null ? loginDataLoginId.hashCode() : 0);
+        result = 31 * result + (loginDataId != null ? loginDataId.hashCode() : 0);
         result = 31 * result + (nodeId != null ? nodeId.hashCode() : 0);
         return result;
     }
