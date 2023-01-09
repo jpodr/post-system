@@ -8,73 +8,47 @@ import java.math.BigInteger;
 public class Packages {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "PACKAGEID")
-    private BigInteger packageid;
+    @Column(name = "PACKAGE_ID")
+    private BigInteger packageId;
     @Basic
-    @Column(name = "SENDERID")
-    private BigInteger senderid;
-    @Basic
-    @Column(name = "RECEIVERID")
-    private BigInteger receiverid;
-    @Basic
-    @Column(name = "SENDERADDRESSID")
-    private BigInteger senderaddressid;
-    @Basic
-    @Column(name = "RECEIVERADDRESSID")
-    private BigInteger receiveraddressid;
-    @Basic
-    @Column(name = "PACKAGESIZE")
-    private String packagesize;
+    @Column(name = "Size")
+    private String size;
     @Basic
     @Column(name = "PRIORITY")
     private String priority;
+    @Basic
+    @Column(name = "WEIGHT")
+    private byte weight;
+    @Basic
+    @Column(name = "TO_ADDRESS_ID")
+    private BigInteger toAddressId;
+    @Basic
+    @Column(name = "FROM_ADDRESS_ID")
+    private BigInteger fromAddressId;
+    @Basic
+    @Column(name = "SERVICE_PLACE_ID")
+    private BigInteger servicePlaceId;
+    @Basic
+    @Column(name = "RECEIVER_ID")
+    private BigInteger receiverId;
+    @Basic
+    @Column(name = "SENDER_ID")
+    private BigInteger senderId;
 
-    public BigInteger getPackageid() {
-        return packageid;
+    public BigInteger getPackageId() {
+        return packageId;
     }
 
-    public void setPackageid(BigInteger packageid) {
-        this.packageid = packageid;
+    public void setPackageId(BigInteger packageId) {
+        this.packageId = packageId;
     }
 
-    public BigInteger getSenderid() {
-        return senderid;
+    public String getSize() {
+        return size;
     }
 
-    public void setSenderid(BigInteger senderid) {
-        this.senderid = senderid;
-    }
-
-    public BigInteger getReceiverid() {
-        return receiverid;
-    }
-
-    public void setReceiverid(BigInteger receiverid) {
-        this.receiverid = receiverid;
-    }
-
-    public BigInteger getSenderaddressid() {
-        return senderaddressid;
-    }
-
-    public void setSenderaddressid(BigInteger senderaddressid) {
-        this.senderaddressid = senderaddressid;
-    }
-
-    public BigInteger getReceiveraddressid() {
-        return receiveraddressid;
-    }
-
-    public void setReceiveraddressid(BigInteger receiveraddressid) {
-        this.receiveraddressid = receiveraddressid;
-    }
-
-    public String getPackagesize() {
-        return packagesize;
-    }
-
-    public void setPackagesize(String size) {
-        this.packagesize = size;
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public String getPriority() {
@@ -85,6 +59,54 @@ public class Packages {
         this.priority = priority;
     }
 
+    public byte getWeight() {
+        return weight;
+    }
+
+    public void setWeight(byte weight) {
+        this.weight = weight;
+    }
+
+    public BigInteger getToAddressId() {
+        return toAddressId;
+    }
+
+    public void setToAddressId(BigInteger toAddressId) {
+        this.toAddressId = toAddressId;
+    }
+
+    public BigInteger getFromAddressId() {
+        return fromAddressId;
+    }
+
+    public void setFromAddressId(BigInteger fromAddressId) {
+        this.fromAddressId = fromAddressId;
+    }
+
+    public BigInteger getServicePlaceId() {
+        return servicePlaceId;
+    }
+
+    public void setServicePlaceId(BigInteger servicePlaceId) {
+        this.servicePlaceId = servicePlaceId;
+    }
+
+    public BigInteger getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(BigInteger receiverId) {
+        this.receiverId = receiverId;
+    }
+
+    public BigInteger getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(BigInteger senderId) {
+        this.senderId = senderId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,41 +114,33 @@ public class Packages {
 
         Packages packages = (Packages) o;
 
-        if (packageid != null ? !packageid.equals(packages.packageid) : packages.packageid != null) return false;
-        if (senderid != null ? !senderid.equals(packages.senderid) : packages.senderid != null) return false;
-        if (receiverid != null ? !receiverid.equals(packages.receiverid) : packages.receiverid != null) return false;
-        if (senderaddressid != null ? !senderaddressid.equals(packages.senderaddressid) : packages.senderaddressid != null)
-            return false;
-        if (receiveraddressid != null ? !receiveraddressid.equals(packages.receiveraddressid) : packages.receiveraddressid != null)
-            return false;
-        if (packagesize != null ? !packagesize.equals(packages.packagesize) : packages.packagesize != null) return false;
+        if (weight != packages.weight) return false;
+        if (packageId != null ? !packageId.equals(packages.packageId) : packages.packageId != null) return false;
+        if (size != null ? !size.equals(packages.size) : packages.size != null) return false;
         if (priority != null ? !priority.equals(packages.priority) : packages.priority != null) return false;
+        if (toAddressId != null ? !toAddressId.equals(packages.toAddressId) : packages.toAddressId != null)
+            return false;
+        if (fromAddressId != null ? !fromAddressId.equals(packages.fromAddressId) : packages.fromAddressId != null)
+            return false;
+        if (servicePlaceId != null ? !servicePlaceId.equals(packages.servicePlaceId) : packages.servicePlaceId != null)
+            return false;
+        if (receiverId != null ? !receiverId.equals(packages.receiverId) : packages.receiverId != null) return false;
+        if (senderId != null ? !senderId.equals(packages.senderId) : packages.senderId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = packageid != null ? packageid.hashCode() : 0;
-        result = 31 * result + (senderid != null ? senderid.hashCode() : 0);
-        result = 31 * result + (receiverid != null ? receiverid.hashCode() : 0);
-        result = 31 * result + (senderaddressid != null ? senderaddressid.hashCode() : 0);
-        result = 31 * result + (receiveraddressid != null ? receiveraddressid.hashCode() : 0);
-        result = 31 * result + (packagesize != null ? packagesize.hashCode() : 0);
+        int result = packageId != null ? packageId.hashCode() : 0;
+        result = 31 * result + (size != null ? size.hashCode() : 0);
         result = 31 * result + (priority != null ? priority.hashCode() : 0);
+        result = 31 * result + (int) weight;
+        result = 31 * result + (toAddressId != null ? toAddressId.hashCode() : 0);
+        result = 31 * result + (fromAddressId != null ? fromAddressId.hashCode() : 0);
+        result = 31 * result + (servicePlaceId != null ? servicePlaceId.hashCode() : 0);
+        result = 31 * result + (receiverId != null ? receiverId.hashCode() : 0);
+        result = 31 * result + (senderId != null ? senderId.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Packages{" +
-                "packageid=" + packageid +
-                ", senderid=" + senderid +
-                ", receiverid=" + receiverid +
-                ", senderaddressid=" + senderaddressid +
-                ", receiveraddressid=" + receiveraddressid +
-                ", packagesize='" + packagesize + '\'' +
-                ", priority='" + priority + '\'' +
-                '}';
     }
 }

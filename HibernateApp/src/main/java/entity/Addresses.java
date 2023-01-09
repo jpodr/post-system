@@ -8,35 +8,41 @@ import java.math.BigInteger;
 public class Addresses {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ADDRESSID")
-    private BigInteger addressid;
+    @Column(name = "ADDRESS_ID")
+    private BigInteger addressId;
     @Basic
-    @Column(name = "CITY")
-    private String city;
+    @Column(name = "TOWN")
+    private String town;
     @Basic
     @Column(name = "STREET")
     private String street;
     @Basic
-    @Column(name = "BUILDINGNUMBER")
-    private String buildingnumber;
+    @Column(name = "BUILDING_NUMBER")
+    private String buildingNumber;
     @Basic
-    @Column(name = "POSTALCODE")
-    private String postalcode;
+    @Column(name = "APPARTMENT_NUMBER")
+    private BigInteger appartmentNumber;
+    @Basic
+    @Column(name = "POSTAL_CODE")
+    private String postalCode;
+    @Basic
+    @Column(name = "COUNTRIES_COUNTRY_ID")
+    private BigInteger countriesCountryId;
 
-    public BigInteger getAddressid() {
-        return addressid;
+    public BigInteger getAddressId() {
+        return addressId;
     }
 
-    public void setAddressid(BigInteger addressid) {
-        this.addressid = addressid;
+    public void setAddressId(BigInteger addressId) {
+        this.addressId = addressId;
     }
 
-    public String getCity() {
-        return city;
+    public String getTown() {
+        return town;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setTown(String town) {
+        this.town = town;
     }
 
     public String getStreet() {
@@ -47,20 +53,36 @@ public class Addresses {
         this.street = street;
     }
 
-    public String getBuildingnumber() {
-        return buildingnumber;
+    public String getBuildingNumber() {
+        return buildingNumber;
     }
 
-    public void setBuildingnumber(String buildingnumber) {
-        this.buildingnumber = buildingnumber;
+    public void setBuildingNumber(String buildingNumber) {
+        this.buildingNumber = buildingNumber;
     }
 
-    public String getPostalcode() {
-        return postalcode;
+    public BigInteger getAppartmentNumber() {
+        return appartmentNumber;
     }
 
-    public void setPostalcode(String postalcode) {
-        this.postalcode = postalcode;
+    public void setAppartmentNumber(BigInteger appartmentNumber) {
+        this.appartmentNumber = appartmentNumber;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public BigInteger getCountriesCountryId() {
+        return countriesCountryId;
+    }
+
+    public void setCountriesCountryId(BigInteger countriesCountryId) {
+        this.countriesCountryId = countriesCountryId;
     }
 
     @Override
@@ -70,34 +92,29 @@ public class Addresses {
 
         Addresses addresses = (Addresses) o;
 
-        if (addressid != null ? !addressid.equals(addresses.addressid) : addresses.addressid != null) return false;
-        if (city != null ? !city.equals(addresses.city) : addresses.city != null) return false;
+        if (addressId != null ? !addressId.equals(addresses.addressId) : addresses.addressId != null) return false;
+        if (town != null ? !town.equals(addresses.town) : addresses.town != null) return false;
         if (street != null ? !street.equals(addresses.street) : addresses.street != null) return false;
-        if (buildingnumber != null ? !buildingnumber.equals(addresses.buildingnumber) : addresses.buildingnumber != null)
+        if (buildingNumber != null ? !buildingNumber.equals(addresses.buildingNumber) : addresses.buildingNumber != null)
             return false;
-        if (postalcode != null ? !postalcode.equals(addresses.postalcode) : addresses.postalcode != null) return false;
+        if (appartmentNumber != null ? !appartmentNumber.equals(addresses.appartmentNumber) : addresses.appartmentNumber != null)
+            return false;
+        if (postalCode != null ? !postalCode.equals(addresses.postalCode) : addresses.postalCode != null) return false;
+        if (countriesCountryId != null ? !countriesCountryId.equals(addresses.countriesCountryId) : addresses.countriesCountryId != null)
+            return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = addressid != null ? addressid.hashCode() : 0;
-        result = 31 * result + (city != null ? city.hashCode() : 0);
+        int result = addressId != null ? addressId.hashCode() : 0;
+        result = 31 * result + (town != null ? town.hashCode() : 0);
         result = 31 * result + (street != null ? street.hashCode() : 0);
-        result = 31 * result + (buildingnumber != null ? buildingnumber.hashCode() : 0);
-        result = 31 * result + (postalcode != null ? postalcode.hashCode() : 0);
+        result = 31 * result + (buildingNumber != null ? buildingNumber.hashCode() : 0);
+        result = 31 * result + (appartmentNumber != null ? appartmentNumber.hashCode() : 0);
+        result = 31 * result + (postalCode != null ? postalCode.hashCode() : 0);
+        result = 31 * result + (countriesCountryId != null ? countriesCountryId.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Addresses{" +
-                "addressid=" + addressid +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", buildingnumber='" + buildingnumber + '\'' +
-                ", postalcode='" + postalcode + '\'' +
-                '}';
     }
 }

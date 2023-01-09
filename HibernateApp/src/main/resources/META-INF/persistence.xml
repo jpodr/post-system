@@ -7,6 +7,16 @@
         <class>entity.Addresses</class>
         <class>entity.Packages</class>
         <class>entity.Persons</class>
+        <class>entity.Clients</class>
+        <class>entity.CoopNodes</class>
+        <class>entity.Countries</class>
+        <class>entity.Employees</class>
+        <class>entity.EmpPosHistory</class>
+        <class>entity.LoginData</class>
+        <class>entity.NodesPacksHistory</class>
+        <class>entity.Positions</class>
+        <class>entity.ServicePlaces</class>
+        <class>entity.SpPacksHistory</class>
 
         <properties>
             <property name="hibernate.connection.url"
