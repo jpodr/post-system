@@ -11,14 +11,14 @@ public class Packages {
     @Column(name = "PACKAGE_ID")
     private BigInteger packageId;
     @Basic
-    @Column(name = "Size")
-    private String size;
+    @Column(name = "PACKAGE_SIZE")
+    private String packageSize;
     @Basic
-    @Column(name = "PRIORITY")
-    private String priority;
+    @Column(name = "PACKAGE_PRIORITY")
+    private String packagePriority;
     @Basic
-    @Column(name = "WEIGHT")
-    private Double weight;
+    @Column(name = "PACKAGE_WEIGHT")
+    private String packageWeight;
     @Basic
     @Column(name = "TO_ADDRESS_ID")
     private BigInteger toAddressId;
@@ -43,28 +43,28 @@ public class Packages {
         this.packageId = packageId;
     }
 
-    public String getSize() {
-        return size;
+    public String getPackageSize() {
+        return packageSize;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setPackageSize(String packageSize) {
+        this.packageSize = packageSize;
     }
 
-    public String getPriority() {
-        return priority;
+    public String getPackagePriority() {
+        return packagePriority;
     }
 
-    public void setPriority(String priority) {
-        this.priority = priority;
+    public void setPackagePriority(String packagePriority) {
+        this.packagePriority = packagePriority;
     }
 
-    public Double getWeight() {
-        return weight;
+    public String getPackageWeight() {
+        return packageWeight;
     }
 
-    public void setWeight(Double weight) {
-        this.weight = weight;
+    public void setPackageWeight(String packageWeight) {
+        this.packageWeight = packageWeight;
     }
 
     public BigInteger getToAddressId() {
@@ -114,10 +114,13 @@ public class Packages {
 
         Packages packages = (Packages) o;
 
-        if (weight != packages.weight) return false;
         if (packageId != null ? !packageId.equals(packages.packageId) : packages.packageId != null) return false;
-        if (size != null ? !size.equals(packages.size) : packages.size != null) return false;
-        if (priority != null ? !priority.equals(packages.priority) : packages.priority != null) return false;
+        if (packageSize != null ? !packageSize.equals(packages.packageSize) : packages.packageSize != null)
+            return false;
+        if (packagePriority != null ? !packagePriority.equals(packages.packagePriority) : packages.packagePriority != null)
+            return false;
+        if (packageWeight != null ? !packageWeight.equals(packages.packageWeight) : packages.packageWeight != null)
+            return false;
         if (toAddressId != null ? !toAddressId.equals(packages.toAddressId) : packages.toAddressId != null)
             return false;
         if (fromAddressId != null ? !fromAddressId.equals(packages.fromAddressId) : packages.fromAddressId != null)
@@ -133,9 +136,9 @@ public class Packages {
     @Override
     public int hashCode() {
         int result = packageId != null ? packageId.hashCode() : 0;
-        result = 31 * result + (size != null ? size.hashCode() : 0);
-        result = 31 * result + (priority != null ? priority.hashCode() : 0);
-        result = 31 * result + weight.intValue();
+        result = 31 * result + (packageSize != null ? packageSize.hashCode() : 0);
+        result = 31 * result + (packagePriority != null ? packagePriority.hashCode() : 0);
+        result = 31 * result + (packageWeight != null ? packageWeight.hashCode() : 0);
         result = 31 * result + (toAddressId != null ? toAddressId.hashCode() : 0);
         result = 31 * result + (fromAddressId != null ? fromAddressId.hashCode() : 0);
         result = 31 * result + (servicePlaceId != null ? servicePlaceId.hashCode() : 0);

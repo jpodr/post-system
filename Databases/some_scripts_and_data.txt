@@ -13,6 +13,16 @@ Polna
 88
 05-420
 
+Informatyk
+Zeiti
+informatyk_z_eiti@pw.edu.pl
+666333888
+
+Nowowiejska
+15/19
+Warsaw
+00-665
+Poland
 
 drop table nodes_packs_history;
 drop table sp_packs_history;
@@ -28,11 +38,9 @@ drop table addresses;
 drop table countries;
 
 
-
-
 create table Z02.COUNTRIES
 (
-    COUNTRY_ID NUMBER GENERATED ALWAYS as IDENTITY (START with 1 INCREMENT by 1)
+    COUNTRY_ID          NUMBER generated as identity
         constraint COUNTRIES_PK
             primary key,
     NAME                VARCHAR2(30 char) not null,
@@ -42,7 +50,7 @@ create table Z02.COUNTRIES
 
 create table Z02.ADDRESSES
 (
-    ADDRESS_ID NUMBER GENERATED ALWAYS as IDENTITY (START with 1 INCREMENT by 1)
+    ADDRESS_ID        NUMBER generated as identity
         constraint ADDRESSES_PK
             primary key,
     TOWN              VARCHAR2(40 char) not null,
@@ -58,7 +66,7 @@ create table Z02.ADDRESSES
 
 create table Z02.COOP_NODES
 (
-    NODE_ID NUMBER GENERATED ALWAYS as IDENTITY (START with 1 INCREMENT by 1)
+    NODE_ID    NUMBER generated as identity
         constraint COOPERATIVE_NODE_PK
             unique,
     NAME       VARCHAR2(30 char),
@@ -68,23 +76,22 @@ create table Z02.COOP_NODES
 )
 /
 
-create unique index Z02.COOPERATIVE_NODE__IDX
-    on Z02.COOP_NODES (ADDRESS_ID)
-/
-
 create table Z02.LOGIN_DATA
 (
-    LOGIN_ID NUMBER GENERATED ALWAYS as IDENTITY (START with 1 INCREMENT by 1)
+    LOGIN_ID     NUMBER generated as identity
         constraint LOGIN_DATA_PK
             primary key,
-    LOGIN    VARCHAR2(40 char) not null,
-    PASSWORD VARCHAR2(40 char) not null
+    ACCOUNT_TYPE NUMBER             not null
+        constraint VALID_ACCOUNT_TYPE
+            check (ACCOUNT_TYPE IN (0, 1, 2)),
+    LOGIN        VARCHAR2(40 char)  not null,
+    PASSWORD     VARCHAR2(200 char) not null
 )
 /
 
 create table Z02.CLIENTS
 (
-    CLIENT_ID NUMBER GENERATED ALWAYS as IDENTITY (START with 1 INCREMENT by 1)
+    CLIENT_ID            NUMBER generated as identity
         constraint CLIENTS_PK
             primary key,
     NAME                 VARCHAR2(25 char)  not null,
@@ -97,13 +104,13 @@ create table Z02.CLIENTS
     LOGIN_DATA_ID        NUMBER
         constraint CLIENTS_LOGIN_DATA_FK
             references Z02.LOGIN_DATA,
-    BIRTH_DATE           DATE               not null
+    BIRTH_DATE           DATE
 )
 /
 
 create table Z02.POSITIONS
 (
-    POSITION_ID NUMBER GENERATED ALWAYS as IDENTITY (START with 1 INCREMENT by 1)
+    POSITION_ID    NUMBER generated as identity
         constraint POSITIONS_PK
             primary key,
     NAME           VARCHAR2(40 char) not null,
@@ -113,7 +120,7 @@ create table Z02.POSITIONS
 
 create table Z02.SERVICE_PLACES
 (
-    SP_ID NUMBER GENERATED ALWAYS as IDENTITY (START with 1 INCREMENT by 1)
+    SP_ID      NUMBER generated as identity
         constraint SERVICE_PLACES_PK
             primary key,
     ADDRESS_ID NUMBER not null
@@ -124,7 +131,7 @@ create table Z02.SERVICE_PLACES
 
 create table Z02.EMPLOYEES
 (
-    EMPLOYEE_ID NUMBER GENERATED ALWAYS as IDENTITY (START with 1 INCREMENT by 1)
+    EMPLOYEE_ID      NUMBER generated as identity
         constraint EMPLOYEES_PK
             primary key,
     NAME             VARCHAR2(40 char) not null,
@@ -155,7 +162,7 @@ create table Z02.EMP_POS_HISTORY
             references Z02.POSITIONS,
     "From"      DATE   not null,
     "To"        DATE,
-    ID          NUMBER GENERATED ALWAYS as IDENTITY (START with 1 INCREMENT by 1),
+    ID          NUMBER generated as identity,
     constraint EMPLOYEE_POSITIONS_HISTORY_PK
         primary key (EMPLOYEE_ID, POSITION_ID)
 )
@@ -163,12 +170,12 @@ create table Z02.EMP_POS_HISTORY
 
 create table Z02.PACKAGES
 (
-    PACKAGE_ID NUMBER GENERATED ALWAYS as IDENTITY (START with 1 INCREMENT by 1)
+    PACKAGE_ID       NUMBER generated as identity
         constraint PACKAGES_PK
             primary key,
-    "Size"           VARCHAR2(20 char) not null,
-    PRIORITY         VARCHAR2(20 char) not null,
-    WEIGHT           NUMBER(8, 2),
+    PACKAGE_SIZE     VARCHAR2(20 char) not null,
+    PACKAGE_PRIORITY VARCHAR2(20 char) not null,
+    PACKAGE_WEIGHT   VARCHAR2(20 char),
     TO_ADDRESS_ID    NUMBER            not null
         constraint PACKAGES_ADDRESSES_FKV1
             references Z02.ADDRESSES,
@@ -197,7 +204,7 @@ create table Z02.NODES_PACKS_HISTORY
             references Z02.COOP_NODES (NODE_ID),
     IN_DATETIME  DATE   not null,
     OUT_DATETIME DATE   not null,
-    ENTRY_ID NUMBER GENERATED ALWAYS as IDENTITY (START with 1 INCREMENT by 1)
+    ENTRY_ID     NUMBER generated as identity
         constraint NODES_PACKAGES_HISTORY_PK
             primary key,
     DESCRIPTION  VARCHAR2(100 char)
@@ -213,11 +220,12 @@ create table Z02.SP_PACKS_HISTORY
         constraint STATUSES_SP_FK
             references Z02.SERVICE_PLACES,
     IN_DATETIME      DATE   not null,
-    STATUS_ID NUMBER GENERATED ALWAYS as IDENTITY (START with 1 INCREMENT by 1),
+    STATUS_ID        NUMBER generated as identity
+        constraint STATUSES_HISTORY_PK
+            primary key,
     DESCRIPTION      VARCHAR2(100 char),
-    OUT_DATETIME     DATE   not null,
-    constraint STATUSES_HISTORY_PK
-        primary key (STATUS_ID)
+    OUT_DATETIME     DATE   not null
 )
 /
+
 

@@ -61,17 +61,17 @@ public class DBManager {
     public BigInteger addPackage(
             BigInteger senderId, BigInteger receiverId,
             BigInteger senderAddressId, BigInteger receiverAddressId,
-            String packageSize, String priority, Double weight){
+            String packageSize, String priority, String weight){
         try {
             transaction.begin();
             Packages parcel = new Packages();
-            parcel.setPriority(priority);
+            parcel.setPackagePriority(priority);
             parcel.setToAddressId(receiverAddressId);
             parcel.setFromAddressId(senderAddressId);
             parcel.setReceiverId(receiverId);
             parcel.setSenderId(senderId);
-            parcel.setSize(packageSize);
-            parcel.setWeight(weight);
+            parcel.setPackageSize(packageSize);
+            parcel.setPackageWeight(weight);
             entityManager.persist(parcel);
             transaction.commit();
             return parcel.getPackageId();
@@ -117,9 +117,11 @@ public class DBManager {
             transaction.begin();
             LoginData ld = new LoginData();
             ld.setLogin(login);
-            String pbkdf2CryptedPassword = passwordEncoder.encode(password);
+//            String pbkdf2CryptedPassword = passwordEncoder.encode(password);
 //            boolean passwordIsValid = passwordEncoder.matches(password, pbkdf2CryptedPassword);
-            ld.setPassword(pbkdf2CryptedPassword);
+//            ld.setPassword(pbkdf2CryptedPassword);
+            ld.setPassword(Integer.toString(password.hashCode()));
+            ld.setAccountType(BigInteger.valueOf(accType));
             entityManager.persist(ld);
             transaction.commit();
             return ld.getLoginId();

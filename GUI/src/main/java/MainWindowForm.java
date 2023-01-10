@@ -9,7 +9,7 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Arrays;
-import java.util.*;
+
 import entity.*;
 
 public class MainWindowForm extends JFrame {
@@ -17,9 +17,6 @@ public class MainWindowForm extends JFrame {
     private JPanel mainWindowPanel;
     private JTabbedPane mainWindowTabbedPane;
     private JTextField senderBuildingNumberTextField;
-    private JTextField senderLastNameTextField;
-    private JTextField senderEmailTextField;
-    private JTextField senderFirstNameTextField;
     private JTextField senderStreetTextField;
     private JLabel senderLabel;
     private JTextField senderCityTextField;
@@ -51,18 +48,13 @@ public class MainWindowForm extends JFrame {
     private JLabel receiverCityLabel;
     private JLabel receiverPostalCodeLabel;
     private JLabel senderPostalCodeLabel;
-    private JLabel senderFirstNameLabel;
     private JLabel senderBuildingNumberLabel;
-    private JLabel senderLastNameLabel;
-    private JLabel senderEmailLabel;
     private JLabel senderCityLabel;
     private JLabel senderStreetLabel;
     private JLabel mainPageEnterPackageIdLabel;
     private JPanel mainPagePanel;
     private JPanel addPackagePagePanel;
     private JPanel showAllPackagesPagePanel;
-    private JLabel senderPhoneNumberLabel;
-    private JTextField senderPhoneNumberTextField;
     private JLabel receiverPhoneNumberLabel;
     private JTextField receiverPhoneNumberTextField;
     private JPanel loginPagePanel;
@@ -96,6 +88,10 @@ public class MainWindowForm extends JFrame {
     private JButton deleteSelectedPackageButton;
     private JPanel logOutTab;
     private JPasswordField passwordAgainPasswordFieldNewAccountPage;
+    private JLabel weightLabel;
+    private JTextField weightTextField;
+    private JTextField senderCountryTextField;
+    private JTextField receiverCountryTextField;
     private JTextField textOnClick;
     private DBManager dbManager;
 
@@ -278,10 +274,12 @@ public class MainWindowForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String login = loginLoginPageTextField.getText();
-                char[] password1 = passwordLoginPagePasswordField.getPassword();
-                String password2 = dbManager.getPasswordByLogin(login);
-                String password1Str = new String(password1);
-                boolean passwordIsValid = dbManager.passwordEncoder.matches(password1Str, password2);
+                String password = new String(passwordLoginPagePasswordField.getPassword());
+                String passwordFromDb = dbManager.getPasswordByLogin(login);
+                Integer hash = password.hashCode();
+                boolean passwordIsValid = password.hashCode() == Integer.parseInt(passwordFromDb);
+                //ACCOUNT_TYPE: 0 - ADMIN, 1 - COURIER, 2 - CLIENT
+                BigInteger accType = dbManager.getAccountTypeByLogin(login);
 
                 if (passwordIsValid) {
                     mainWindowTabbedPane.setVisible(true);
