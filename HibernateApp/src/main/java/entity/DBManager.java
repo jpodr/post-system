@@ -93,7 +93,7 @@ public class DBManager {
         return allPackages.getResultList();
     }
     public List getFullPackageInfo(BigInteger id){
-        String s = "SELECT p.packageId, p.size, p.priority, a.street, a.buildingNumber, a.town, a.postalCode, " +
+        String s = "SELECT p.packageId, p.packageSize, p.packagePriority, a.street, a.buildingNumber, a.town, a.postalCode, " +
                 "per.name, per.surname, per.phoneNumber " +
                 "FROM Packages p " +
                 "JOIN Clients per ON (p.receiverId = per.clientId) " +
