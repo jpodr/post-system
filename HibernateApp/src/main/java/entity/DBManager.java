@@ -112,7 +112,7 @@ public class DBManager {
         return q.getResultList();
     }
 
-    public BigInteger addLoginData(String login, String password){
+    public BigInteger addLoginData(String login, String password, int accType){
         try {
             transaction.begin();
             LoginData ld = new LoginData();
@@ -155,5 +155,21 @@ public class DBManager {
         TypedQuery<LoginData> passwordByLogin = entityManager.createQuery(s, LoginData.class);
         passwordByLogin.setParameter("login", login);
         return passwordByLogin.getSingleResult().getPassword();
+    }
+
+    public BigInteger getAccountTypeByLogin(String login) {
+        String s = "SELECT distinct l FROM LoginData l WHERE login = :login";
+        TypedQuery<LoginData> accTypeByLogin = entityManager.createQuery(s, LoginData.class);
+        accTypeByLogin.setParameter("login", login);
+        return accTypeByLogin.getSingleResult().getAccountType();
+    }
+
+    public Clients getClientByLogin(String login) {
+        String s = "SELECT distinct cl " +
+                "FROM Clients cl join LoginData ld on (cl.loginDataId = ld.loginId) " +
+                "WHERE ld.login = :login";
+        TypedQuery<Clients> clientByLogin = entityManager.createQuery(s, Clients.class);
+        clientByLogin.setParameter("login", login);
+        return clientByLogin.getSingleResult();
     }
 }

@@ -219,27 +219,35 @@ public class MainWindowForm extends JFrame {
         addPackageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String fromCountry = senderCountryTextField.getText();
+                BigInteger fromCountryId = dbManager.getCountryIdByName(fromCountry);
                 BigInteger senderAddressId = dbManager.addAddress(
                         senderCityTextField.getText(),
                         senderStreetTextField.getText(),
                         senderBuildingNumberTextField.getText(),
                         senderPostalCodeTextField.getText(),
-                        null
+                        fromCountryId
                 );
+                String toCountry = receiverCountryTextField.getText();
+                BigInteger toCountryId = dbManager.getCountryIdByName(toCountry);
                 BigInteger receiverAddressId = dbManager.addAddress(
                         receiverCityTextField.getText(),
                         receiverStreetTextField.getText(),
                         receiverBuildingNumberTextField.getText(),
                         receiverPostalCodeTextField.getText(),
-                        null
+                        toCountryId
                 );
-                BigInteger senderId = dbManager.addClient(
-                        senderFirstNameTextField.getText(),
-                        senderLastNameTextField.getText(),
-                        senderEmailTextField.getText(),
-                        senderPhoneNumberTextField.getText(),
-                        senderAddressId, null, null
-                );
+                BigInteger senderId = loggedInClient.getClientId();
+
+//                dbManager.addClient(
+//                        senderFirstNameTextField.getText(),
+//                        senderLastNameTextField.getText(),
+//                        senderEmailTextField.getText(),
+//                        senderPhoneNumberTextField.getText(),
+//                        senderAddressId, loggedInClient.getBirthDate(),
+//                        loggedInClient.getClientId()
+//                );
+
                 BigInteger receiverId = dbManager.addClient(
                         receiverFirstNameTextField.getText(),
                         receiverLastNameTextField.getText(),
@@ -263,11 +271,11 @@ public class MainWindowForm extends JFrame {
                     }
                     pri += priPrize.charAt(i);
                 }
-//                dbManager.addPackage(
-//                        senderId, receiverId,
-//                        senderAddressId, receiverAddressId,
-//                        size, pri
-//                );
+                String weight = weightTextField.getText();
+                dbManager.addPackage(
+                        senderId, receiverId, senderAddressId,
+                        receiverAddressId, size, pri, weight
+                );
             }
         });
         logInLoginPageButton.addActionListener(new ActionListener() {
@@ -281,10 +289,21 @@ public class MainWindowForm extends JFrame {
                 //ACCOUNT_TYPE: 0 - ADMIN, 1 - COURIER, 2 - CLIENT
                 BigInteger accType = dbManager.getAccountTypeByLogin(login);
 
-                if (passwordIsValid) {
+                if (passwordIsValid && accType == BigInteger.valueOf(2)) {
+                    loggedInClient = dbManager.getClientByLogin(login);
                     mainWindowTabbedPane.setVisible(true);
                     loginTabbedPane.setVisible(false);
                     loginPagePanel.setVisible(false);
+                }
+                else if (passwordIsValid && accType == BigInteger.valueOf(1)) {
+                     courierPagePanel.setVisible(true);
+                     loginTabbedPane.setVisible(false);
+                     loginPagePanel.setVisible(false);
+                }
+                else if (passwordIsValid && accType == BigInteger.valueOf(0)) {
+//                     adminPagePanel.setVisible(true);
+                     loginTabbedPane.setVisible(false);
+                     loginPagePanel.setVisible(false);
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "Password is not valid! Try again");
@@ -333,7 +352,7 @@ public class MainWindowForm extends JFrame {
                 BigInteger countryId = dbManager.getCountryIdByName(countryName);
                 BigInteger addressId = dbManager.addAddress(town, street, buildingNumber, postalCode, countryId);
                 if (Arrays.equals(password1, password2)) {
-                    BigInteger loginDataId = dbManager.addLoginData(email, password1.toString());
+                    BigInteger loginDataId = dbManager.addLoginData(email, password1.toString(), 2);
                     BigInteger clientId = dbManager.addClient(name, surname, email, phoneNumber, addressId, birthDate, loginDataId);
                     loggedInClient = dbManager.getClient(clientId);
 
