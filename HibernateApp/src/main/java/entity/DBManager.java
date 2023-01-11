@@ -172,4 +172,13 @@ public class DBManager {
         clientByLogin.setParameter("login", login);
         return clientByLogin.getSingleResult();
     }
+
+    public List getAllCouriersInfo(){
+        String s = "" +
+                "SELECT e.employeeId, e.name, e.surname " +
+                "FROM Employees e Join Positions p on (e.positionId = p.positionId)" +
+                "WHERE p.name = 'Courier'";
+        Query q = entityManager.createQuery(s);
+        return q.getResultList();
+    }
 }
