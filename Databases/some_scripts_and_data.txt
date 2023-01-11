@@ -190,7 +190,10 @@ create table Z02.PACKAGES
             references Z02.CLIENTS,
     SENDER_ID        NUMBER            not null
         constraint PACKAGES_CLIENTS_FK
-            references Z02.CLIENTS
+            references Z02.CLIENTS,
+    COURIER_ID	   NUMBER
+	  constraint PACKAGES_COURIERS_FK
+            references Z02.EMPLOYEES (EMPLOYEE_ID)
 )
 /
 
@@ -219,12 +222,11 @@ create table Z02.SP_PACKS_HISTORY
     SERVICE_PLACE_ID NUMBER not null
         constraint STATUSES_SP_FK
             references Z02.SERVICE_PLACES,
-    IN_DATETIME      DATE   not null,
-    STATUS_ID        NUMBER generated as identity
+    STATUS_DATETIME      DATE   not null,
+    STATUS_ID NUMBER generated as identity
         constraint STATUSES_HISTORY_PK
             primary key,
-    DESCRIPTION      VARCHAR2(100 char),
-    OUT_DATETIME     DATE   not null
+    DESCRIPTION      VARCHAR2(400 char),
 )
 /
 

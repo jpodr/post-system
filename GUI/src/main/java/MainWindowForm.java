@@ -85,13 +85,25 @@ public class MainWindowForm extends JFrame {
     private JPanel courierPagePanel;
     private JList courierAllPackagesList;
     private JTextArea courierAllPackagesInfoTextArea;
-    private JButton deleteSelectedPackageButton;
     private JPanel logOutTab;
     private JPasswordField passwordAgainPasswordFieldNewAccountPage;
     private JLabel weightLabel;
     private JTextField weightTextField;
     private JTextField senderCountryTextField;
     private JTextField receiverCountryTextField;
+    private JTabbedPane courierTabbedPane;
+    private JPanel logOutCourierTab;
+    private JTabbedPane adminTabbedPane;
+    private JPanel adminPagePanel;
+    private JPanel logOutAdminTab;
+    private JButton receivedFromClientButton;
+    private JButton deliveredToClientButton;
+    private JButton deliveredToNodeButton;
+    private JButton receivedFromNodeButton;
+    private JList adminAllPackagesList;
+    private JList adminAllCouriersList;
+    private JTextArea adminPackageInfoTextArea;
+    private JButton assignPackageToCourierButton;
     private JTextField textOnClick;
     private DBManager dbManager;
 
@@ -157,20 +169,7 @@ public class MainWindowForm extends JFrame {
                     }
                 }
                 else if (mainWindowTabbedPane.getSelectedIndex() == 2){
-                    courierAllPackagesList.setModel(new DefaultListModel());
-                    List infos = dbManager.getAllPackagesInfo();
-                    for(int i = 0; i < infos.size(); i++){
-                        Object[] o = (Object[]) infos.get(i);
-                        String info = o[0] + ", " + o[1] + " " + o[2];
-                        DefaultListModel newModel = new DefaultListModel();
-                        newModel.addElement(info);
-                        for (int j = 0; j < courierAllPackagesList.getModel().getSize(); j++){
-                            newModel.addElement(courierAllPackagesList.getModel().getElementAt(j));
-                        }
-                        courierAllPackagesList.setModel(newModel);
-                    }
-                }
-                else if (mainWindowTabbedPane.getSelectedIndex() == 3){
+                    courierTabbedPane.setVisible(false);
                     mainWindowTabbedPane.setVisible(false);
                     loginTabbedPane.setVisible(true);
                     loginPagePanel.setVisible(true);
@@ -296,14 +295,14 @@ public class MainWindowForm extends JFrame {
                     loginPagePanel.setVisible(false);
                 }
                 else if (passwordIsValid && accType == BigInteger.valueOf(1)) {
-                     courierPagePanel.setVisible(true);
-                     loginTabbedPane.setVisible(false);
-                     loginPagePanel.setVisible(false);
+                    courierTabbedPane.setVisible(true);
+                    loginTabbedPane.setVisible(false);
+                    loginPagePanel.setVisible(false);
                 }
                 else if (passwordIsValid && accType == BigInteger.valueOf(0)) {
-//                     adminPagePanel.setVisible(true);
-                     loginTabbedPane.setVisible(false);
-                     loginPagePanel.setVisible(false);
+                    adminPagePanel.setVisible(true);
+                    loginTabbedPane.setVisible(false);
+                    loginPagePanel.setVisible(false);
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "Password is not valid! Try again");
@@ -363,6 +362,212 @@ public class MainWindowForm extends JFrame {
                 else {
                     JOptionPane.showMessageDialog(null, "Passwords you entered are not the same, try again!");
                 }
+            }
+        });
+        courierTabbedPane.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (courierTabbedPane.getSelectedIndex() == 0){
+                    courierAllPackagesList.setModel(new DefaultListModel());
+                    List infos = dbManager.getAllPackagesInfoForCourier(loggedInEmployee.getEmployeeId());
+                    for(int i = 0; i < infos.size(); i++){
+                        Object[] o = (Object[]) infos.get(i);
+                        String info = o[0] + ", " + o[1] + " " + o[2];
+                        DefaultListModel newModel = new DefaultListModel();
+                        newModel.addElement(info);
+                        for (int j = 0; j < courierAllPackagesList.getModel().getSize(); j++){
+                            newModel.addElement(courierAllPackagesList.getModel().getElementAt(j));
+                        }
+                        courierAllPackagesList.setModel(newModel);
+                    }
+                }
+                else if (courierTabbedPane.getSelectedIndex() == 1){
+                    courierTabbedPane.setVisible(false);
+                    loginTabbedPane.setVisible(true);
+                    loginPagePanel.setVisible(true);
+                    loggedInClient = null;
+                    loggedInEmployee = null;
+                    mainWindowTabbedPane.setSelectedIndex(0);
+                }
+            }
+        });
+        adminTabbedPane.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (adminTabbedPane.getSelectedIndex() == 0){
+                    adminAllPackagesList.setModel(new DefaultListModel());
+                    List packagesInfos = dbManager.getAllPackagesInfo();
+                    for (int i = 0; i < packagesInfos.size(); i++) {
+                        Object[] o = (Object[]) packagesInfos.get(i);
+                        String info = o[0] + ", " + o[1] + " " + o[2];
+                        DefaultListModel newModel = new DefaultListModel();
+                        newModel.addElement(info);
+                        for (int j = 0; j < adminAllPackagesList.getModel().getSize(); j++) {
+                            newModel.addElement(adminAllPackagesList.getModel().getElementAt(j));
+                        }
+                        adminAllPackagesList.setModel(newModel);
+                    }
+
+                    adminAllCouriersList.setModel(new DefaultListModel());
+                    List couriersInfos = dbManager.getAllCouriersInfo();
+                    for (int i = 0; i < couriersInfos.size(); i++) {
+                        Object[] o = (Object[]) couriersInfos.get(i);
+                        String info = o[0] + ", " + o[1] + " " + o[2];
+                        DefaultListModel newModel = new DefaultListModel();
+                        newModel.addElement(info);
+                        for (int j = 0; j < adminAllCouriersList.getModel().getSize(); j++) {
+                            newModel.addElement(adminAllCouriersList.getModel().getElementAt(j));
+                        }
+                        adminAllCouriersList.setModel(newModel);
+                    }
+                }
+                else if (adminTabbedPane.getSelectedIndex() == 1){
+                    adminTabbedPane.setVisible(false);
+                    loginTabbedPane.setVisible(true);
+                    loginPagePanel.setVisible(true);
+                    loggedInClient = null;
+                    loggedInEmployee = null;
+                    mainWindowTabbedPane.setSelectedIndex(0);
+                }
+            }
+        });
+        adminAllPackagesList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Object selectedValue = ((JList) e.getSource()).getSelectedValue();
+                if (selectedValue == null) return;
+                String value = selectedValue.toString();
+                String idStr = "";
+                for (int i = 0; i < value.length(); i++){
+                    if (value.charAt(i) == ','){
+                        break;
+                    }
+                    idStr += value.charAt(i);
+                }
+                BigInteger packageId = new BigInteger(idStr);
+                Object[] attributes = (Object[]) dbManager.getFullPackageInfo(packageId).get(0);
+                courierAllPackagesInfoTextArea.setText(DescribedPackageAttributes(attributes));
+            }
+        });
+//        adminAllCouriersList.addListSelectionListener(new ListSelectionListener() {
+//            // TODO tutaj dostajemy id kuriera - chcemy do niego przypisac paczke
+//            @Override
+//            public void valueChanged(ListSelectionEvent e) {
+//                Object selectedValue = ((JList) e.getSource()).getSelectedValue();
+//                if (selectedValue == null) return;
+//                String value = selectedValue.toString();
+//                String idStr = "";
+//                for (int i = 0; i < value.length(); i++) {
+//                    if (value.charAt(i) == ','){
+//                        break;
+//                    }
+//                    idStr += value.charAt(i);
+//                }
+//                BigInteger courierId = new BigInteger(idStr);
+//            }
+//        });
+        receivedFromClientButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object selectedValue = courierAllPackagesList.getSelectedValue();
+                if (selectedValue == null) return;
+                String value = selectedValue.toString();
+                String idStr = "";
+                for (int i = 0; i < value.length(); i++){
+                    if (value.charAt(i) == ','){
+                        break;
+                    }
+                    idStr += value.charAt(i);
+                }
+                BigInteger packageId = new BigInteger(idStr);
+
+                dbManager.addSPPacksHistory(packageId, "Package going to node.");
+            }
+        });
+        deliveredToNodeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object selectedValue = courierAllPackagesList.getSelectedValue();
+                if (selectedValue == null) return;
+                String value = selectedValue.toString();
+                String idStr = "";
+                for (int i = 0; i < value.length(); i++){
+                    if (value.charAt(i) == ','){
+                        break;
+                    }
+                    idStr += value.charAt(i);
+                }
+                BigInteger packageId = new BigInteger(idStr);
+
+                dbManager.addSPPacksHistory(packageId, "Package delivered to node.");
+            }
+        });
+        receivedFromNodeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object selectedValue = courierAllPackagesList.getSelectedValue();
+                if (selectedValue == null) return;
+                String value = selectedValue.toString();
+                String idStr = "";
+                for (int i = 0; i < value.length(); i++){
+                    if (value.charAt(i) == ','){
+                        break;
+                    }
+                    idStr += value.charAt(i);
+                }
+                BigInteger packageId = new BigInteger(idStr);
+
+                dbManager.addSPPacksHistory(packageId, "Package going to receiver.");
+            }
+        });
+        deliveredToClientButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object selectedValue = courierAllPackagesList.getSelectedValue();
+                if (selectedValue == null) return;
+                String value = selectedValue.toString();
+                String idStr = "";
+                for (int i = 0; i < value.length(); i++){
+                    if (value.charAt(i) == ','){
+                        break;
+                    }
+                    idStr += value.charAt(i);
+                }
+                BigInteger packageId = new BigInteger(idStr);
+
+                dbManager.addSPPacksHistory(packageId, "Package delivered to receiver.");
+            }
+        });
+        assignPackageToCourierButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object selectedValue1 = adminAllPackagesList.getSelectedValue();
+                if (selectedValue1 == null) return;
+                String value1 = selectedValue1.toString();
+                String idStr1 = "";
+                for (int i = 0; i < value1.length(); i++){
+                    if (value1.charAt(i) == ','){
+                        break;
+                    }
+                    idStr1 += value1.charAt(i);
+                }
+                BigInteger packageId = new BigInteger(idStr1);
+
+                Object selectedValue2 = adminAllCouriersList.getSelectedValue();
+                if (selectedValue2 == null) return;
+                String value2 = selectedValue2.toString();
+                String idStr2 = "";
+                for (int i = 0; i < value2.length(); i++) {
+                    if (value2.charAt(i) == ','){
+                        break;
+                    }
+                    idStr2 += value2.charAt(i);
+                }
+                BigInteger courierId = new BigInteger(idStr2);
+
+                Packages a_package = dbManager.getPackageById(packageId);
+
+                dbManager.addPackageToCourier(a_package, courierId);
             }
         });
     }
