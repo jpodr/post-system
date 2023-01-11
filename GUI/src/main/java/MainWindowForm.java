@@ -131,6 +131,7 @@ public class MainWindowForm extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         createNewAccountPagePanel.setVisible(false);
         mainWindowTabbedPane.setVisible(false);
+        courierTabbedPane.setVisible(false);
         setVisible(true);
         senderLabel.setFont(new Font("", Font.PLAIN, 16));
         receiverLabel.setFont(new Font("", Font.PLAIN, 16));
@@ -156,7 +157,7 @@ public class MainWindowForm extends JFrame {
             public void stateChanged(ChangeEvent e) {
                 if (mainWindowTabbedPane.getSelectedIndex() == 1){
                     allPackagesList.setModel(new DefaultListModel());
-                    List infos = dbManager.getAllPackagesInfo();
+                    List infos = dbManager.getAllPackagesInfoForClient(loggedInClient.getClientId());
                     for(int i = 0; i < infos.size(); i++){
                         Object[] o = (Object[]) infos.get(i);
                         String info = o[0] + ", " + o[1] + " " + o[2];
@@ -293,6 +294,7 @@ public class MainWindowForm extends JFrame {
                     mainWindowTabbedPane.setVisible(true);
                     loginTabbedPane.setVisible(false);
                     loginPagePanel.setVisible(false);
+                    courierTabbedPane.setVisible(false);
                 }
                 else if (passwordIsValid && accType == BigInteger.valueOf(1)) {
                     courierTabbedPane.setVisible(true);
@@ -315,6 +317,7 @@ public class MainWindowForm extends JFrame {
                 loginPagePanel.setVisible(false);
                 loginTabbedPane.setVisible(false);
                 createNewAccountPagePanel.setVisible(true);
+                courierTabbedPane.setVisible(false);
             }
         });
         logInButton.addActionListener(new ActionListener() {
@@ -322,6 +325,7 @@ public class MainWindowForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 createNewAccountPagePanel.setVisible(false);
                 loginTabbedPane.setVisible(true);
+                courierTabbedPane.setVisible(false);
             }
         });
         createAccountButton.addActionListener(new ActionListener() {

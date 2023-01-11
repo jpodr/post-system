@@ -111,6 +111,29 @@ public class DBManager {
         Query q = entityManager.createQuery(s);
         return q.getResultList();
     }
+    public List getAllPackagesInfoForClient(BigInteger clientId){
+        String s = "" +
+                "SELECT p.id, cl.name, cl.surname, cl2.name, cl2.surname " +
+                "FROM Packages p " +
+                "JOIN Clients cl ON (p.senderId=cl.clientId) " +
+                "JOIN Clients cl2 ON (p.receiverId=cl2.clientId)" +
+                "WHERE cl.clientId = :clientId";
+        Query q = entityManager.createQuery(s);
+        q.setParameter("clientId", clientId);
+        return q.getResultList();
+    }
+    public List getAllPackagesInfoForCourier(BigInteger employeeId){
+        String s = "" +
+                "SELECT p.id, cl.name, cl.surname, cl2.name, cl2.surname " +
+                "FROM Packages p " +
+                "JOIN Clients cl ON (p.senderId=cl.clientId) " +
+                "JOIN Clients cl2 ON (p.receiverId=cl2.clientId)" +
+                "JOIN Employees e ON (p.courierId=e.employeeId)" +
+                "WHERE e.employeeId = :employeeId";
+        Query q = entityManager.createQuery(s);
+        q.setParameter("employeeId", employeeId);
+        return q.getResultList();
+    }
 
     public BigInteger addLoginData(String login, String password, int accType){
         try {
@@ -125,6 +148,36 @@ public class DBManager {
             entityManager.persist(ld);
             transaction.commit();
             return ld.getLoginId();
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+        }
+    }
+
+    public BigInteger addSPPacksHistory(BigInteger packageId, String description){
+        try {
+            transaction.begin();
+            SpPacksHistory spph = new SpPacksHistory();
+            spph.setPackageId(packageId);
+            spph.setDescription(description);
+            spph.setStatusDatetime(LocalDate.now());
+            entityManager.persist(spph);
+            transaction.commit();
+            return spph.getIdStatus();
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+        }
+    }
+
+    public BigInteger addPackageToCourier(Packages a_package, BigInteger courierId){
+        try {
+            transaction.begin();
+            a_package.setCourierId(courierId);
+            entityManager.persist(a_package);
+            transaction.commit();
         } finally {
             if (transaction.isActive()) {
                 transaction.rollback();
