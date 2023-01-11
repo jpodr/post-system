@@ -282,6 +282,21 @@ public class MainWindowForm extends JFrame {
                         senderId, receiverId, senderAddressId,
                         receiverAddressId, size, pri, weight
                 );
+                senderCountryTextField.setText("");
+                senderCityTextField.setText("");
+                senderStreetTextField.setText("");
+                senderBuildingNumberTextField.setText("");
+                senderPostalCodeTextField.setText("");
+                receiverCityTextField.setText("");
+                receiverStreetTextField.setText("");
+                receiverBuildingNumberTextField.setText("");
+                receiverPostalCodeTextField.setText("");
+                receiverCountryTextField.setText("");
+                receiverFirstNameTextField.setText("");
+                receiverLastNameTextField.setText("");
+                receiverEmailTextField.setText("");
+                receiverPhoneNumberTextField.setText("");
+                weightTextField.setText("");
             }
         });
         logInLoginPageButton.addActionListener(new ActionListener() {
@@ -301,18 +316,24 @@ public class MainWindowForm extends JFrame {
                     loginTabbedPane.setVisible(false);
                     loginPagePanel.setVisible(false);
                     courierTabbedPane.setVisible(false);
+                    loginLoginPageTextField.setText("");
+                    passwordLoginPagePasswordField.setText("");
                 }
                 else if (passwordIsValid && accType == BigInteger.valueOf(1)) {
                     courierTabbedPane.setVisible(true);
                     courierPagePanel.setVisible(true);
                     loginTabbedPane.setVisible(false);
                     loginPagePanel.setVisible(false);
+                    loginLoginPageTextField.setText("");
+                    passwordLoginPagePasswordField.setText("");
                 }
                 else if (passwordIsValid && accType == BigInteger.valueOf(0)) {
                     adminTabbedPane.setVisible(true);
                     adminPagePanel.setVisible(true);
                     loginTabbedPane.setVisible(false);
                     loginPagePanel.setVisible(false);
+                    loginLoginPageTextField.setText("");
+                    passwordLoginPagePasswordField.setText("");
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "Password is not valid! Try again");
@@ -372,6 +393,24 @@ public class MainWindowForm extends JFrame {
                     createNewAccountPagePanel.setVisible(false);
                     loginTabbedPane.setVisible(false);
                     mainWindowTabbedPane.setVisible(true);
+
+                    nameTextFieldNewAccountPage.setText("");
+                    surnameTextFieldNewAccountPage.setText("");
+                    emailTextFieldNewAccountPage.setText("");
+                    mobileNumberTextFieldNewAccountPage.setText("");
+                    passwordPasswordFieldNewAccountPage.setText("");
+                    passwordAgainPasswordFieldNewAccountPage.setText("");
+                    countryTextFieldNewAccountPage.setText("");
+                    townTextFieldNewAccountPage.setText("");
+                    buildingNumberTextFieldNewAccountPage.setText("");
+                    streetTextFieldNewAccountPage.setText("");
+                    postalCodeTextFieldNewAccountPage.setText("");
+                    SpinnerModel sm = new SpinnerNumberModel(1, 1, 31, 1);
+                    dayNewAccountPageSpinner.setModel(sm);
+                    sm = new SpinnerNumberModel(2023, 1900, 2023, 1);
+                    yearNewAccountPageSpinner.setModel(sm);
+                    monthNewAccountPageComboBox.setSelectedIndex(0);
+                    showPasswordCheckBox.setSelected(false);
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "Passwords you entered are not the same, try again!");
