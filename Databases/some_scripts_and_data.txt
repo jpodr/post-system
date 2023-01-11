@@ -1,3 +1,6 @@
+admin:admin
+
+
 Michał
 Chwesiuk
 1
@@ -13,10 +16,17 @@ Polna
 88
 05-420
 
+courier@gmail.com: courier
+
 Informatyk
 Zeiti
 informatyk_z_eiti@pw.edu.pl
 666333888
+infa
+Poland
+Warsaw
+Nowowiejska 4
+00-649
 
 Nowowiejska
 15/19
@@ -114,7 +124,7 @@ create table Z02.POSITIONS
         constraint POSITIONS_PK
             primary key,
     NAME           VARCHAR2(40 char) not null,
-    MINIMUM_SALARY NUMBER(2, 10)
+    MINIMUM_SALARY NUMBER(10, 2)
 )
 /
 
@@ -136,7 +146,7 @@ create table Z02.EMPLOYEES
             primary key,
     NAME             VARCHAR2(40 char) not null,
     SURNAME          VARCHAR2(40 char) not null,
-    SALARY           NUMBER(2, 10),
+    SALARY           NUMBER(10, 2),
     POSITION_ID      NUMBER            not null
         constraint EMPLOYEES_POSITIONS_FK
             references Z02.POSITIONS,

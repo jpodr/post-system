@@ -93,11 +93,17 @@ public class DBManager {
         return allPackages.getResultList();
     }
     public List getFullPackageInfo(BigInteger id){
-        String s = "SELECT p.packageId, p.packageSize, p.packagePriority, a.street, a.buildingNumber, a.town, a.postalCode, " +
-                "per.name, per.surname, per.phoneNumber " +
+        String s = "SELECT p.packageId, p.packageSize, p.packagePriority, " +
+                "to.street, to.buildingNumber, to.town, to.postalCode, " +
+                "fr.street, fr.buildingNumber, fr.town, fr.postalCode," +
+                "res.name, res.surname, res.phoneNumber, " +
+                "sen.name, sen.surname, sen.phoneNumber " +
                 "FROM Packages p " +
-                "JOIN Clients per ON (p.receiverId = per.clientId) " +
-                "JOIN Addresses a ON (p.toAddressId = a.addressId) WHERE p.packageId = :id";
+                "JOIN Clients sen ON (p.receiverId = sen.clientId) " +
+                "JOIN Clients res ON (p.receiverId = res.clientId) " +
+                "JOIN Addresses to ON (p.toAddressId = to.addressId) " +
+                "JOIN Addresses fr ON (p.fromAddressId = fr.addressId) " +
+                "WHERE p.packageId = :id";
         Query q = entityManager.createQuery(s);
         q.setParameter("id", id);
         return q.getResultList();
@@ -164,7 +170,7 @@ public class DBManager {
             spph.setStatusDatetime(LocalDate.now());
             entityManager.persist(spph);
             transaction.commit();
-            return spph.getIdStatus();
+            return spph.getStatusId();
         } finally {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -178,6 +184,7 @@ public class DBManager {
             a_package.setCourierId(courierId);
             entityManager.persist(a_package);
             transaction.commit();
+            return a_package.getPackageId();
         } finally {
             if (transaction.isActive()) {
                 transaction.rollback();

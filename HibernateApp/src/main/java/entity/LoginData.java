@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.math.BigInteger;
 
 @Entity
-@Table(name = "LOGIN_DATA", schema = "Z02")
+@Table(name = "LOGIN_DATA", schema = "Z02", catalog = "")
 public class LoginData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

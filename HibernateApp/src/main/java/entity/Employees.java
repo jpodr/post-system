@@ -32,9 +32,6 @@ public class Employees {
     @Column(name = "NODE_ID")
     private BigInteger nodeId;
 
-    public Boolean isAdmin;
-    public Boolean isCourier;
-
     public BigInteger getEmployeeId() {
         return employeeId;
     }

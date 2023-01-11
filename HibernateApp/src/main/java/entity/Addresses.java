@@ -77,12 +77,12 @@ public class Addresses {
         this.postalCode = postalCode;
     }
 
-    public BigInteger getCountriesCountryId() {
+    public BigInteger getCountryId() {
         return countryId;
     }
 
-    public void setCountryId(BigInteger countriesCountryId) {
-        this.countryId = countriesCountryId;
+    public void setCountryId(BigInteger countryId) {
+        this.countryId = countryId;
     }
 
     @Override
@@ -100,8 +100,7 @@ public class Addresses {
         if (appartmentNumber != null ? !appartmentNumber.equals(addresses.appartmentNumber) : addresses.appartmentNumber != null)
             return false;
         if (postalCode != null ? !postalCode.equals(addresses.postalCode) : addresses.postalCode != null) return false;
-        if (countryId != null ? !countryId.equals(addresses.countryId) : addresses.countryId != null)
-            return false;
+        if (countryId != null ? !countryId.equals(addresses.countryId) : addresses.countryId != null) return false;
 
         return true;
     }

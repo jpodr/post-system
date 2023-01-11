@@ -114,12 +114,17 @@ public class MainWindowForm extends JFrame {
         String resp = "";
         resp += "Package:\nID: " + attrs[0].toString();
         resp += "; Size: " + attrs[1].toString();
-        resp += "; Priority: " + attrs[2].toString() + "\n\n";
-        resp += "Address:\nStreet: " + attrs[3].toString() + " " + attrs[4].toString();
-        resp += "; City: " + attrs[6].toString() + " " + attrs[5].toString() + "\n\n";
-        resp += "Receiver:\nFirst name: " + attrs[7].toString();
-        resp += "; Last name: " + attrs[8].toString();
-        resp += "; Phone number: " + attrs[9].toString();
+        resp += "; Priority: " + attrs[2].toString() + "\n\n\tSender info:\n";
+        resp += "\nFirst name: " + attrs[14].toString();
+        resp += "; Last name: " + attrs[15].toString();
+        resp += "; Phone number: " + attrs[16].toString();
+        resp += "\n\nAddress:\nStreet: " + attrs[7].toString() + " " + attrs[8].toString();
+        resp += "; City: " + attrs[9].toString() + " " + attrs[10].toString() + "\n\n\tReceiver info:\n";
+        resp += "\nFirst name: " + attrs[11].toString();
+        resp += "; Last name: " + attrs[12].toString();
+        resp += "; Phone number: " + attrs[13].toString();
+        resp += "\n\nAddress:\nStreet: " + attrs[3].toString() + " " + attrs[4].toString();
+        resp += "; City: " + attrs[5].toString() + " " + attrs[6].toString() + "\n\n";
         return resp;
     }
 
@@ -132,6 +137,7 @@ public class MainWindowForm extends JFrame {
         createNewAccountPagePanel.setVisible(false);
         mainWindowTabbedPane.setVisible(false);
         courierTabbedPane.setVisible(false);
+        adminTabbedPane.setVisible(false);
         setVisible(true);
         senderLabel.setFont(new Font("", Font.PLAIN, 16));
         receiverLabel.setFont(new Font("", Font.PLAIN, 16));
@@ -298,10 +304,12 @@ public class MainWindowForm extends JFrame {
                 }
                 else if (passwordIsValid && accType == BigInteger.valueOf(1)) {
                     courierTabbedPane.setVisible(true);
+                    courierPagePanel.setVisible(true);
                     loginTabbedPane.setVisible(false);
                     loginPagePanel.setVisible(false);
                 }
                 else if (passwordIsValid && accType == BigInteger.valueOf(0)) {
+                    adminTabbedPane.setVisible(true);
                     adminPagePanel.setVisible(true);
                     loginTabbedPane.setVisible(false);
                     loginPagePanel.setVisible(false);
@@ -318,6 +326,7 @@ public class MainWindowForm extends JFrame {
                 loginTabbedPane.setVisible(false);
                 createNewAccountPagePanel.setVisible(true);
                 courierTabbedPane.setVisible(false);
+                adminTabbedPane.setVisible(false);
             }
         });
         logInButton.addActionListener(new ActionListener() {
@@ -326,6 +335,7 @@ public class MainWindowForm extends JFrame {
                 createNewAccountPagePanel.setVisible(false);
                 loginTabbedPane.setVisible(true);
                 courierTabbedPane.setVisible(false);
+                adminTabbedPane.setVisible(false);
             }
         });
         createAccountButton.addActionListener(new ActionListener() {
@@ -391,6 +401,7 @@ public class MainWindowForm extends JFrame {
                     loginPagePanel.setVisible(true);
                     loggedInClient = null;
                     loggedInEmployee = null;
+                    courierTabbedPane.setSelectedIndex(0);
                     mainWindowTabbedPane.setSelectedIndex(0);
                 }
             }
@@ -398,7 +409,7 @@ public class MainWindowForm extends JFrame {
         adminTabbedPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (adminTabbedPane.getSelectedIndex() == 0){
+                if (adminTabbedPane.getSelectedIndex() == 0 || adminTabbedPane.getSelectedIndex() == 1){
                     adminAllPackagesList.setModel(new DefaultListModel());
                     List packagesInfos = dbManager.getAllPackagesInfo();
                     for (int i = 0; i < packagesInfos.size(); i++) {
@@ -425,7 +436,8 @@ public class MainWindowForm extends JFrame {
                         adminAllCouriersList.setModel(newModel);
                     }
                 }
-                else if (adminTabbedPane.getSelectedIndex() == 1){
+                else if (adminTabbedPane.getSelectedIndex() == 2){
+                    adminTabbedPane.setSelectedIndex(1);
                     adminTabbedPane.setVisible(false);
                     loginTabbedPane.setVisible(true);
                     loginPagePanel.setVisible(true);
@@ -450,26 +462,9 @@ public class MainWindowForm extends JFrame {
                 }
                 BigInteger packageId = new BigInteger(idStr);
                 Object[] attributes = (Object[]) dbManager.getFullPackageInfo(packageId).get(0);
-                courierAllPackagesInfoTextArea.setText(DescribedPackageAttributes(attributes));
+                adminPackageInfoTextArea.setText(DescribedPackageAttributes(attributes));
             }
         });
-//        adminAllCouriersList.addListSelectionListener(new ListSelectionListener() {
-//            // TODO tutaj dostajemy id kuriera - chcemy do niego przypisac paczke
-//            @Override
-//            public void valueChanged(ListSelectionEvent e) {
-//                Object selectedValue = ((JList) e.getSource()).getSelectedValue();
-//                if (selectedValue == null) return;
-//                String value = selectedValue.toString();
-//                String idStr = "";
-//                for (int i = 0; i < value.length(); i++) {
-//                    if (value.charAt(i) == ','){
-//                        break;
-//                    }
-//                    idStr += value.charAt(i);
-//                }
-//                BigInteger courierId = new BigInteger(idStr);
-//            }
-//        });
         receivedFromClientButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -572,6 +567,19 @@ public class MainWindowForm extends JFrame {
                 Packages a_package = dbManager.getPackageById(packageId);
 
                 dbManager.addPackageToCourier(a_package, courierId);
+            }
+        });
+        showPasswordCheckBox.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (showPasswordCheckBox.isSelected()) {
+                    passwordPasswordFieldNewAccountPage.setEchoChar((char) 0);
+                    passwordAgainPasswordFieldNewAccountPage.setEchoChar((char) 0);
+                }
+                else {
+                    passwordPasswordFieldNewAccountPage.setEchoChar('*');
+                    passwordAgainPasswordFieldNewAccountPage.setEchoChar('*');
+                }
             }
         });
     }

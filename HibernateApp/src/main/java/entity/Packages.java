@@ -34,6 +34,9 @@ public class Packages {
     @Basic
     @Column(name = "SENDER_ID")
     private BigInteger senderId;
+    @Basic
+    @Column(name = "COURIER_ID")
+    private BigInteger courierId;
 
     public BigInteger getPackageId() {
         return packageId;
@@ -107,6 +110,14 @@ public class Packages {
         this.senderId = senderId;
     }
 
+    public BigInteger getCourierId() {
+        return courierId;
+    }
+
+    public void setCourierId(BigInteger courierId) {
+        this.courierId = courierId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -129,6 +140,7 @@ public class Packages {
             return false;
         if (receiverId != null ? !receiverId.equals(packages.receiverId) : packages.receiverId != null) return false;
         if (senderId != null ? !senderId.equals(packages.senderId) : packages.senderId != null) return false;
+        if (courierId != null ? !courierId.equals(packages.courierId) : packages.courierId != null) return false;
 
         return true;
     }
@@ -144,6 +156,7 @@ public class Packages {
         result = 31 * result + (servicePlaceId != null ? servicePlaceId.hashCode() : 0);
         result = 31 * result + (receiverId != null ? receiverId.hashCode() : 0);
         result = 31 * result + (senderId != null ? senderId.hashCode() : 0);
+        result = 31 * result + (courierId != null ? courierId.hashCode() : 0);
         return result;
     }
 }
