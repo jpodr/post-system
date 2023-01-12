@@ -74,6 +74,7 @@ public class DBManager {
             parcel.setPackageWeight(weight);
             entityManager.persist(parcel);
             transaction.commit();
+            addSPPacksHistory(parcel.getPackageId(), "Waiting for courier.");
             return parcel.getPackageId();
         } finally {
             if (transaction.isActive()) {
@@ -97,12 +98,14 @@ public class DBManager {
                 "to.street, to.buildingNumber, to.town, to.postalCode, " +
                 "fr.street, fr.buildingNumber, fr.town, fr.postalCode," +
                 "res.name, res.surname, res.phoneNumber, " +
-                "sen.name, sen.surname, sen.phoneNumber " +
+                "sen.name, sen.surname, sen.phoneNumber, " +
+                "sp.description, sp.statusDatetime " +
                 "FROM Packages p " +
                 "JOIN Clients sen ON (p.receiverId = sen.clientId) " +
                 "JOIN Clients res ON (p.receiverId = res.clientId) " +
                 "JOIN Addresses to ON (p.toAddressId = to.addressId) " +
                 "JOIN Addresses fr ON (p.fromAddressId = fr.addressId) " +
+                "JOIN SpPacksHistory sp ON (p.packageId = sp.packageId) " +
                 "WHERE p.packageId = :id";
         Query q = entityManager.createQuery(s);
         q.setParameter("id", id);
@@ -119,7 +122,7 @@ public class DBManager {
     }
     public List getAllPackagesInfoForClient(BigInteger clientId){
         String s = "" +
-                "SELECT p.id, cl.name, cl.surname, cl2.name, cl2.surname " +
+                "SELECT p.id, cl2.name, cl2.surname " +
                 "FROM Packages p " +
                 "JOIN Clients cl ON (p.senderId=cl.clientId) " +
                 "JOIN Clients cl2 ON (p.receiverId=cl2.clientId)" +
@@ -146,9 +149,6 @@ public class DBManager {
             transaction.begin();
             LoginData ld = new LoginData();
             ld.setLogin(login);
-//            String pbkdf2CryptedPassword = passwordEncoder.encode(password);
-//            boolean passwordIsValid = passwordEncoder.matches(password, pbkdf2CryptedPassword);
-//            ld.setPassword(pbkdf2CryptedPassword);
             ld.setPassword(Integer.toString(password.hashCode()));
             ld.setAccountType(BigInteger.valueOf(accType));
             entityManager.persist(ld);

@@ -386,7 +386,7 @@ public class MainWindowForm extends JFrame {
                 BigInteger countryId = dbManager.getCountryIdByName(countryName);
                 BigInteger addressId = dbManager.addAddress(town, street, buildingNumber, postalCode, countryId);
                 if (Arrays.equals(password1, password2)) {
-                    BigInteger loginDataId = dbManager.addLoginData(email, password1.toString(), 2);
+                    BigInteger loginDataId = dbManager.addLoginData(email, String.valueOf(password1), 2);
                     BigInteger clientId = dbManager.addClient(name, surname, email, phoneNumber, addressId, birthDate, loginDataId);
                     loggedInClient = dbManager.getClient(clientId);
 
