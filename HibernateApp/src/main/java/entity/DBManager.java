@@ -101,7 +101,7 @@ public class DBManager {
                 "sen.name, sen.surname, sen.phoneNumber, " +
                 "sp.description, sp.statusDatetime " +
                 "FROM Packages p " +
-                "JOIN Clients sen ON (p.receiverId = sen.clientId) " +
+                "JOIN Clients sen ON (p.senderId = sen.clientId) " +
                 "JOIN Clients res ON (p.receiverId = res.clientId) " +
                 "JOIN Addresses to ON (p.toAddressId = to.addressId) " +
                 "JOIN Addresses fr ON (p.fromAddressId = fr.addressId) " +

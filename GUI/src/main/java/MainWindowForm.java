@@ -125,6 +125,8 @@ public class MainWindowForm extends JFrame {
         resp += "; Phone number: " + attrs[13].toString();
         resp += "\n\nAddress:\nStreet: " + attrs[3].toString() + " " + attrs[4].toString();
         resp += "; City: " + attrs[5].toString() + " " + attrs[6].toString() + "\n\n";
+        resp += "Status description: " + attrs[14].toString() + "\n";
+        resp += "Date time: " + attrs[15].toString() + "\n";
         return resp;
     }
 
