@@ -104,6 +104,9 @@ public class MainWindowForm extends JFrame {
     private JList adminAllCouriersList;
     private JTextArea adminPackageInfoTextArea;
     private JButton assignPackageToCourierButton;
+    private JPanel adminManagePackagesTab;
+    private JList list1;
+    private JTextArea textArea1;
     private JTextField textOnClick;
     private DBManager dbManager;
 
@@ -112,7 +115,7 @@ public class MainWindowForm extends JFrame {
 
     private String DescribedPackageAttributes(Object[] attrs){
         String resp = "";
-        resp += "Package:\nID: " + attrs[0].toString();
+        resp += "\tPackage:\n\nID: " + attrs[0].toString();
         resp += "; Size: " + attrs[1].toString();
         resp += "; Priority: " + attrs[2].toString() + "\n\n\tSender info:\n";
         resp += "\nFirst name: " + attrs[14].toString();
@@ -125,7 +128,7 @@ public class MainWindowForm extends JFrame {
         resp += "; Phone number: " + attrs[13].toString();
         resp += "\n\nAddress:\nStreet: " + attrs[3].toString() + " " + attrs[4].toString();
         resp += "; City: " + attrs[5].toString() + " " + attrs[6].toString() + "\n\n";
-        resp += "Status description: " + attrs[14].toString() + "\n";
+        resp += "\tStatus:\n\nStatus description: " + attrs[14].toString() + ";\n";
         resp += "Date time: " + attrs[15].toString() + "\n";
         return resp;
     }
