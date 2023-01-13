@@ -126,8 +126,8 @@ public class MainWindowForm extends JFrame {
         resp += "; Phone number: " + attrs[13].toString();
         resp += "\n\nAddress:\nStreet: " + attrs[3].toString() + " " + attrs[4].toString();
         resp += "; City: " + attrs[5].toString() + " " + attrs[6].toString() + "\n\n";
-        resp += "\tStatus:\n\nStatus description: " + attrs[14].toString() + ";\n";
-        resp += "Date time: " + attrs[15].toString() + "\n";
+        resp += "\tStatus:\n\nStatus description: " + attrs[17].toString() + "\n";
+        resp += "Date time: " + attrs[18].toString() + "\n";
         return resp;
     }
 
@@ -323,6 +323,19 @@ public class MainWindowForm extends JFrame {
                     passwordLoginPagePasswordField.setText("");
                 }
                 else if (passwordIsValid && accType == BigInteger.valueOf(1)) {
+                    loggedInEmployee = dbManager.getEmployeeByLogin(login);
+                    courierAllPackagesList.setModel(new DefaultListModel());
+                    List infos = dbManager.getAllPackagesInfoForCourier(loggedInEmployee.getEmployeeId());
+                    for(int i = 0; i < infos.size(); i++){
+                        Object[] o = (Object[]) infos.get(i);
+                        String info = o[0] + ", " + o[1] + " " + o[2];
+                        DefaultListModel newModel = new DefaultListModel();
+                        newModel.addElement(info);
+                        for (int j = 0; j < courierAllPackagesList.getModel().getSize(); j++){
+                            newModel.addElement(courierAllPackagesList.getModel().getElementAt(j));
+                        }
+                        courierAllPackagesList.setModel(newModel);
+                    }
                     courierTabbedPane.setVisible(true);
                     courierPagePanel.setVisible(true);
                     loginTabbedPane.setVisible(false);

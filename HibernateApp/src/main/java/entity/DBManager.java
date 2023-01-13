@@ -235,6 +235,15 @@ public class DBManager {
         return clientByLogin.getSingleResult();
     }
 
+    public Employees getEmployeeByLogin(String login) {
+        String s = "SELECT distinct em " +
+                "FROM Employees em join LoginData ld on (em.loginDataId = ld.loginId) " +
+                "WHERE ld.login = :login";
+        TypedQuery<Employees> employeeByLogin = entityManager.createQuery(s, Employees.class);
+        employeeByLogin.setParameter("login", login);
+        return employeeByLogin.getSingleResult();
+    }
+
     public List getAllCouriersInfo(){
         String s = "" +
                 "SELECT e.employeeId, e.name, e.surname " +
