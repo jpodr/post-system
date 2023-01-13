@@ -106,7 +106,9 @@ public class DBManager {
                 "JOIN Addresses to ON (p.toAddressId = to.addressId) " +
                 "JOIN Addresses fr ON (p.fromAddressId = fr.addressId) " +
                 "JOIN SpPacksHistory sp ON (p.packageId = sp.packageId) " +
-                "WHERE p.packageId = :id";
+                "WHERE p.packageId = :id " +
+                "ORDER BY sp.statusId DESC " +
+                "FETCH FIRST 1 ROW ONLY";
         Query q = entityManager.createQuery(s);
         q.setParameter("id", id);
         return q.getResultList();

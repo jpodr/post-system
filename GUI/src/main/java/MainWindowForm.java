@@ -105,8 +105,6 @@ public class MainWindowForm extends JFrame {
     private JTextArea adminPackageInfoTextArea;
     private JButton assignPackageToCourierButton;
     private JPanel adminManagePackagesTab;
-    private JList list1;
-    private JTextArea textArea1;
     private JTextField textOnClick;
     private DBManager dbManager;
 
@@ -333,6 +331,33 @@ public class MainWindowForm extends JFrame {
                     passwordLoginPagePasswordField.setText("");
                 }
                 else if (passwordIsValid && accType == BigInteger.valueOf(0)) {
+                    loginTabbedPane.setVisible(false);
+                    loginPagePanel.setVisible(false);
+                    adminAllPackagesList.setModel(new DefaultListModel());
+                    List packagesInfos = dbManager.getAllPackagesInfo();
+                    for (int i = 0; i < packagesInfos.size(); i++) {
+                        Object[] o = (Object[]) packagesInfos.get(i);
+                        String info = o[0] + ", " + o[1] + " " + o[2];
+                        DefaultListModel newModel = new DefaultListModel();
+                        newModel.addElement(info);
+                        for (int j = 0; j < adminAllPackagesList.getModel().getSize(); j++) {
+                            newModel.addElement(adminAllPackagesList.getModel().getElementAt(j));
+                        }
+                        adminAllPackagesList.setModel(newModel);
+                    }
+
+                    adminAllCouriersList.setModel(new DefaultListModel());
+                    List couriersInfos = dbManager.getAllCouriersInfo();
+                    for (int i = 0; i < couriersInfos.size(); i++) {
+                        Object[] o = (Object[]) couriersInfos.get(i);
+                        String info = o[0] + ", " + o[1] + " " + o[2];
+                        DefaultListModel newModel = new DefaultListModel();
+                        newModel.addElement(info);
+                        for (int j = 0; j < adminAllCouriersList.getModel().getSize(); j++) {
+                            newModel.addElement(adminAllCouriersList.getModel().getElementAt(j));
+                        }
+                        adminAllCouriersList.setModel(newModel);
+                    }
                     adminTabbedPane.setVisible(true);
                     adminPagePanel.setVisible(true);
                     loginTabbedPane.setVisible(false);
@@ -453,7 +478,7 @@ public class MainWindowForm extends JFrame {
         adminTabbedPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (adminTabbedPane.getSelectedIndex() == 0 || adminTabbedPane.getSelectedIndex() == 1){
+                if (adminTabbedPane.getSelectedIndex() == 0){
                     adminAllPackagesList.setModel(new DefaultListModel());
                     List packagesInfos = dbManager.getAllPackagesInfo();
                     for (int i = 0; i < packagesInfos.size(); i++) {
@@ -480,7 +505,7 @@ public class MainWindowForm extends JFrame {
                         adminAllCouriersList.setModel(newModel);
                     }
                 }
-                else if (adminTabbedPane.getSelectedIndex() == 2){
+                else if (adminTabbedPane.getSelectedIndex() == 1){
                     adminTabbedPane.setSelectedIndex(1);
                     adminTabbedPane.setVisible(false);
                     loginTabbedPane.setVisible(true);
@@ -525,6 +550,9 @@ public class MainWindowForm extends JFrame {
                 BigInteger packageId = new BigInteger(idStr);
 
                 dbManager.addSPPacksHistory(packageId, "Package going to node.");
+
+                Object[] attributes = (Object[]) dbManager.getFullPackageInfo(packageId).get(0);
+                courierAllPackagesInfoTextArea.setText(DescribedPackageAttributes(attributes));
             }
         });
         deliveredToNodeButton.addActionListener(new ActionListener() {
@@ -543,6 +571,9 @@ public class MainWindowForm extends JFrame {
                 BigInteger packageId = new BigInteger(idStr);
 
                 dbManager.addSPPacksHistory(packageId, "Package delivered to node.");
+
+                Object[] attributes = (Object[]) dbManager.getFullPackageInfo(packageId).get(0);
+                courierAllPackagesInfoTextArea.setText(DescribedPackageAttributes(attributes));
             }
         });
         receivedFromNodeButton.addActionListener(new ActionListener() {
@@ -561,6 +592,9 @@ public class MainWindowForm extends JFrame {
                 BigInteger packageId = new BigInteger(idStr);
 
                 dbManager.addSPPacksHistory(packageId, "Package going to receiver.");
+
+                Object[] attributes = (Object[]) dbManager.getFullPackageInfo(packageId).get(0);
+                courierAllPackagesInfoTextArea.setText(DescribedPackageAttributes(attributes));
             }
         });
         deliveredToClientButton.addActionListener(new ActionListener() {
@@ -579,6 +613,9 @@ public class MainWindowForm extends JFrame {
                 BigInteger packageId = new BigInteger(idStr);
 
                 dbManager.addSPPacksHistory(packageId, "Package delivered to receiver.");
+
+                Object[] attributes = (Object[]) dbManager.getFullPackageInfo(packageId).get(0);
+                courierAllPackagesInfoTextArea.setText(DescribedPackageAttributes(attributes));
             }
         });
         assignPackageToCourierButton.addActionListener(new ActionListener() {
@@ -624,6 +661,25 @@ public class MainWindowForm extends JFrame {
                     passwordPasswordFieldNewAccountPage.setEchoChar('*');
                     passwordAgainPasswordFieldNewAccountPage.setEchoChar('*');
                 }
+            }
+        });
+        courierAllPackagesList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                Object selectedValue = courierAllPackagesList.getSelectedValue();
+                if (selectedValue == null) return;
+                String value = selectedValue.toString();
+                String idStr = "";
+                for (int i = 0; i < value.length(); i++){
+                    if (value.charAt(i) == ','){
+                        break;
+                    }
+                    idStr += value.charAt(i);
+                }
+                BigInteger packageId = new BigInteger(idStr);
+                Object[] attributes = (Object[]) dbManager.getFullPackageInfo(packageId).get(0);
+                courierAllPackagesInfoTextArea.setText(DescribedPackageAttributes(attributes));
             }
         });
     }
