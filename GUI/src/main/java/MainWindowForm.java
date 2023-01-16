@@ -1,10 +1,15 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.imageio.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
@@ -105,6 +110,7 @@ public class MainWindowForm extends JFrame {
     private JTextArea adminPackageInfoTextArea;
     private JButton assignPackageToCourierButton;
     private JPanel adminManagePackagesTab;
+    private JLabel PWPostLogo;
     private JTextField textOnClick;
     private DBManager dbManager;
 
@@ -113,21 +119,21 @@ public class MainWindowForm extends JFrame {
 
     private String DescribedPackageAttributes(Object[] attrs){
         String resp = "";
-        resp += "\tPackage:\n\nID: " + attrs[0].toString();
+        resp += "\tPackage:\nID: " + attrs[0].toString();
         resp += "; Size: " + attrs[1].toString();
-        resp += "; Priority: " + attrs[2].toString() + "\n\n\tSender info:\n";
+        resp += "; Priority: " + attrs[2].toString() + "\n\n\tSender info:";
         resp += "\nFirst name: " + attrs[14].toString();
         resp += "; Last name: " + attrs[15].toString();
         resp += "; Phone number: " + attrs[16].toString();
-        resp += "\n\nAddress:\nStreet: " + attrs[7].toString() + " " + attrs[8].toString();
+        resp += "\n\tAddress:\nStreet: " + attrs[7].toString() + " " + attrs[8].toString();
         resp += "; City: " + attrs[9].toString() + " " + attrs[10].toString() + "\n\n\tReceiver info:\n";
-        resp += "\nFirst name: " + attrs[11].toString();
+        resp += "First name: " + attrs[11].toString();
         resp += "; Last name: " + attrs[12].toString();
         resp += "; Phone number: " + attrs[13].toString();
-        resp += "\n\nAddress:\nStreet: " + attrs[3].toString() + " " + attrs[4].toString();
+        resp += "\n\tAddress:\nStreet: " + attrs[3].toString() + " " + attrs[4].toString();
         resp += "; City: " + attrs[5].toString() + " " + attrs[6].toString() + "\n\n";
-        resp += "\tStatus:\n\nStatus description: " + attrs[17].toString() + "\n";
-        resp += "Date time: " + attrs[18].toString() + "\n";
+        resp += "\tStatus:\nStatus description: " + attrs[17].toString() + "\n";
+        resp += "Date time: " + attrs[18].toString();
         return resp;
     }
 
@@ -705,5 +711,15 @@ public class MainWindowForm extends JFrame {
         form.dayNewAccountPageSpinner.setModel(sm);
         sm = new SpinnerNumberModel(2023, 1900, 2023, 1);
         form.yearNewAccountPageSpinner.setModel(sm);
+    }
+
+    private void createUIComponents() throws IOException {
+        PWPostLogo = new JLabel();
+        File file = new File("PW_Post_640_360.jpg");
+        BufferedImage jpg = ImageIO.read(file);
+        Image scaledJpg = jpg.getScaledInstance(240, 135, Image.SCALE_SMOOTH);
+        ImageIcon PWPostIcon = new ImageIcon(scaledJpg);
+        PWPostLogo.setIcon(PWPostIcon);
+        // PWPostLogo.setHorizontalAlignment(JLabel.CENTER);
     }
 }
