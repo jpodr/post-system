@@ -4,6 +4,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.ImageIcon;
 import javax.imageio.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -116,6 +117,7 @@ public class MainWindowForm extends JFrame {
 
     private Clients loggedInClient;
     private Employees loggedInEmployee;
+    ImageIcon logo = new ImageIcon(getClass().getResource("PW_Logo.png"));
 
     private String DescribedPackageAttributes(Object[] attrs){
         String resp = "";
@@ -148,6 +150,7 @@ public class MainWindowForm extends JFrame {
         courierTabbedPane.setVisible(false);
         adminTabbedPane.setVisible(false);
         setVisible(true);
+        setIconImage(logo.getImage());
         senderLabel.setFont(new Font("", Font.PLAIN, 16));
         receiverLabel.setFont(new Font("", Font.PLAIN, 16));
         packageLabel.setFont(new Font("", Font.PLAIN, 16));
