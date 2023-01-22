@@ -142,7 +142,7 @@ public class MainWindowForm extends JFrame {
     public MainWindowForm() {
         dbManager = new DBManager();
         setContentPane(mainWindowPanel);
-        setTitle("PW Post");
+        setTitle("Post");
         setSize(700, 700);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         createNewAccountPagePanel.setVisible(false);
