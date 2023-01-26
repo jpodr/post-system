@@ -96,7 +96,7 @@ create table Z02.EMPLOYEES
             primary key,
     NAME             VARCHAR2(40 char) not null,
     SURNAME          VARCHAR2(40 char) not null,
-    SALARY           NUMBER(2, 10),
+    SALARY           NUMBER(10, 2),
     POSITION_ID      NUMBER            not null
         constraint EMPLOYEES_POSITIONS_FK
             references Z02.POSITIONS,
