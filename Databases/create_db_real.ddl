@@ -1,19 +1,3 @@
-admin:admin
-
-drop table nodes_packs_history;
-drop table sp_packs_history;
-drop table emp_pos_history;
-drop table employees;
-drop table packages;
-drop table positions;
-drop table service_places;
-drop table clients;
-drop table login_data;
-drop table coop_nodes;
-drop table addresses;
-drop table countries;
-
-
 create table Z02.COUNTRIES
 (
     COUNTRY_ID          NUMBER generated as identity
@@ -70,7 +54,7 @@ create table Z02.CLIENTS
     CLIENT_ID            NUMBER generated as identity
         constraint CLIENTS_PK
             primary key,
-    NAME                 VARCHAR2(25 char)  not null,
+    NAME                 VARCHAR2(40 char)  not null,
     SURNAME              VARCHAR2(40 char)  not null,
     EMAIL                VARCHAR2(100 char) not null,
     PHONE_NUMBER         VARCHAR2(9 char)   not null,
@@ -112,7 +96,7 @@ create table Z02.EMPLOYEES
             primary key,
     NAME             VARCHAR2(40 char) not null,
     SURNAME          VARCHAR2(40 char) not null,
-    SALARY           NUMBER(10, 2),
+    SALARY           NUMBER(2, 10),
     POSITION_ID      NUMBER            not null
         constraint EMPLOYEES_POSITIONS_FK
             references Z02.POSITIONS,
@@ -167,9 +151,9 @@ create table Z02.PACKAGES
     SENDER_ID        NUMBER            not null
         constraint PACKAGES_CLIENTS_FK
             references Z02.CLIENTS,
-    COURIER_ID	   NUMBER
-	  constraint PACKAGES_COURIERS_FK
-            references Z02.EMPLOYEES (EMPLOYEE_ID)
+    COURIER_ID       NUMBER
+        constraint PACKAGES_COURIERS_FK
+            references Z02.EMPLOYEES
 )
 /
 
@@ -198,12 +182,11 @@ create table Z02.SP_PACKS_HISTORY
     SERVICE_PLACE_ID NUMBER not null
         constraint STATUSES_SP_FK
             references Z02.SERVICE_PLACES,
-    STATUS_DATETIME      DATE   not null,
-    STATUS_ID NUMBER generated as identity
+    STATUS_DATETIME  DATE   not null,
+    STATUS_ID        NUMBER generated as identity
         constraint STATUSES_HISTORY_PK
             primary key,
     DESCRIPTION      VARCHAR2(400 char)
 )
 /
-
 
