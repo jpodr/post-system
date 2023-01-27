@@ -69,7 +69,29 @@ end;
 
 -- procedure 2
 -- set new position to employee
+CREATE OR replace PROCEDURE change_employees_status(emp_id NUMBER, new_pos_id NUMBER)
+AS
+    v_old_pos_id NUMBER;
+BEGIN
+    SELECT position_id INTO v_old_pos_id FROM employees WHERE employee_id = emp_id;
+    
+    UPDATE employees
+        SET position_id = new_pos_id
+        WHERE employee_id = emp_id;
+    
+    UPDATE emp_pos_history
+        SET to_date = sysdate
+        WHERE employee_id = emp_id AND position_id = v_old_pos_id;
+        
+    INSERT INTO emp_pos_history (employee_id, position_id, from_date) VALUES (emp_id, new_pos_id, sysdate);
+    dbms_output.put_line('Nadano nową pozycję pracownikowi o id ' || emp_id || '.');
+END;
+/
 
+BEGIN
+    change_employees_status(22, 22);
+    COMMIT;
+END; 
 
 -- trigger 1
 -- check if the new courier's id on package is valid
