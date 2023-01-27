@@ -69,27 +69,36 @@ end;
 
 -- procedure 2
 -- set new position to employee
-CREATE OR replace PROCEDURE change_employees_status(emp_id NUMBER, new_pos_id NUMBER)
+CREATE OR replace PROCEDURE change_employees_position(emp_id NUMBER, new_pos_id NUMBER)
 AS
     v_old_pos_id NUMBER;
+    v_login_id NUMBER;
 BEGIN
     SELECT position_id INTO v_old_pos_id FROM employees WHERE employee_id = emp_id;
-    
+    SELECT login_data_id INTO v_login_id FROM employees WHERE employee_id = emp_id;
+
     UPDATE employees
-        SET position_id = new_pos_id
-        WHERE employee_id = emp_id;
-    
+    SET position_id = new_pos_id
+    WHERE employee_id = emp_id;
+
     UPDATE emp_pos_history
-        SET to_date = sysdate
-        WHERE employee_id = emp_id AND position_id = v_old_pos_id;
-        
+    SET to_date = sysdate
+    WHERE employee_id = emp_id AND position_id = v_old_pos_id;
+
+    UPDATE login_data
+    SET account_type = CASE
+        WHEN new_pos_id = 21 THEN 1
+        ELSE 0
+        END
+    WHERE login_id = v_login_id;
+
     INSERT INTO emp_pos_history (employee_id, position_id, from_date) VALUES (emp_id, new_pos_id, sysdate);
-    dbms_output.put_line('Nadano nową pozycję pracownikowi o id ' || emp_id || '.');
+    dbms_output.put_line('Nadano nową pozycję pracownikowi o id ' || emp_id ||  '.');
 END;
 /
 
 BEGIN
-    change_employees_status(22, 22);
+    change_employees_position(22, 22);
     COMMIT;
 END; 
 
