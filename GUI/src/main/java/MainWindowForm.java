@@ -134,8 +134,10 @@ public class MainWindowForm extends JFrame {
         resp += "; Phone number: " + attrs[13].toString();
         resp += "\n\tAddress:\nStreet: " + attrs[3].toString() + " " + attrs[4].toString();
         resp += "; City: " + attrs[5].toString() + " " + attrs[6].toString() + "\n\n";
-        resp += "\tStatus:\nStatus description: " + attrs[17].toString() + "\n";
-        resp += "Date time: " + attrs[18].toString();
+        if (attrs[17] != null && attrs[18] != null){
+            resp += "\tStatus:\nStatus description: " + attrs[17].toString() + "\n";
+            resp += "Date time: " + attrs[18].toString();
+        }
         return resp;
     }
 

@@ -105,7 +105,7 @@ public class DBManager {
                 "JOIN Clients res ON (p.receiverId = res.clientId) " +
                 "JOIN Addresses to ON (p.toAddressId = to.addressId) " +
                 "JOIN Addresses fr ON (p.fromAddressId = fr.addressId) " +
-                "JOIN SpPacksHistory sp ON (p.packageId = sp.packageId) " +
+                "LEFT JOIN SpPacksHistory sp ON (p.packageId = sp.packageId) " +
                 "WHERE p.packageId = :id " +
                 "ORDER BY sp.statusId DESC " +
                 "FETCH FIRST 1 ROW ONLY";
